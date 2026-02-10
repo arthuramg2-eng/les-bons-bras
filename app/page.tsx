@@ -2,64 +2,206 @@ import Image from "next/image";
 
 export default function Home() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
+    <main className="bg-[#F7F6F3] text-[#111] overflow-hidden">
+
+      {/* ================= HERO ================= */}
+      <section className="relative min-h-screen grid md:grid-cols-2 items-center px-8 md:px-20 gap-16">
+        
+        {/* pastel glow */}
+        <div className="absolute -top-40 -left-40 w-[500px] h-[500px] bg-[#E6E3D9] rounded-full blur-3xl opacity-70" />
+        <div className="absolute bottom-0 right-0 w-[400px] h-[400px] bg-[#E8EFEA] rounded-full blur-3xl opacity-60" />
+
+        <div className="relative z-10">
+          <h1 className="text-5xl md:text-6xl font-serif font-medium leading-tight mb-8">
+            Les Bons Bras
           </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+
+          <p className="text-xl text-gray-700 max-w-xl mb-6">
+            La plateforme qui met en relation
+            des particuliers avec les meilleurs
+            professionnels de la rénovation.
           </p>
+
+          <p className="text-md text-gray-600 max-w-xl mb-10">
+            Architectes, designers, plombiers, électriciens,
+            entrepreneurs — nous vous aidons à trouver
+            les bons experts, simplement.
+          </p>
+
+          <button className="px-8 py-4 bg-[#111] text-white text-sm tracking-wide uppercase hover:bg-[#333] transition rounded-sm shadow-md">
+            Trouver un professionnel
+          </button>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+
+        {/* Image Hero */}
+        <div className="relative h-[70vh] rounded-xl overflow-hidden shadow-xl">
+          <Image
+            src="/images/resultat.jpg"
+            alt="Projet de rénovation"
+            fill
+            className="object-cover"
+            priority
+          />
+        </div>
+      </section>
+
+      {/* ================= PROMESSE ================= */}
+      <section className="py-32 px-8 md:px-20 bg-white">
+        <div className="max-w-4xl space-y-10">
+          <p className="text-2xl font-light leading-relaxed">
+            Trouver le bon professionnel
+            ne devrait pas être un parcours du combattant.
+          </p>
+
+          <p className="text-lg text-gray-600">
+            Les Bons Bras vous permettent de gagner du temps,
+            d’éviter les mauvaises surprises
+            et de collaborer avec des experts fiables,
+            sélectionnés pour leur sérieux et leur savoir-faire.
+          </p>
+
+          <div className="h-px w-24 bg-[#D6CFC4]" />
+        </div>
+      </section>
+
+      {/* ================= COMMENT ÇA MARCHE ================= */}
+      <section className="py-32 px-8 md:px-20 bg-[#F3F4F1]">
+        <div className="max-w-6xl grid md:grid-cols-3 gap-12">
+          {[
+            {
+              title: "Décrivez votre projet",
+              text: "Expliquez vos besoins, votre budget et vos délais."
+            },
+            {
+              title: "Nous vous connectons",
+              text: "Nous identifions les professionnels adaptés à votre projet."
+            },
+            {
+              title: "Vous choisissez",
+              text: "Vous échangez librement et sélectionnez le bon partenaire."
+            },
+          ].map((item, i) => (
+            <div
+              key={i}
+              className="bg-white rounded-xl p-8 shadow-sm hover:shadow-md transition"
+            >
+              <div className="text-sm text-gray-400 mb-2">0{i + 1}</div>
+              <h3 className="text-xl font-medium mb-4">{item.title}</h3>
+              <p className="text-gray-600 leading-relaxed">{item.text}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* ================= TYPES DE PROS ================= */}
+      <section className="py-32 px-8 md:px-20">
+        <div className="grid md:grid-cols-2 gap-16 items-center">
+
+          <div className="relative h-[60vh] rounded-xl overflow-hidden shadow-lg">
             <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
+              src="/images/chantier.jpg"
+              alt="Professionnels de la rénovation"
+              fill
+              className="object-cover"
             />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+          </div>
+
+          <div className="space-y-8">
+            <h2 className="text-3xl font-serif">
+              Un réseau de professionnels qualifiés
+            </h2>
+
+            <p className="text-lg text-gray-700">
+              Nous collaborons avec des experts indépendants,
+              soigneusement sélectionnés.
+            </p>
+
+            <ul className="space-y-3 text-gray-600">
+              <li>— Architectes & designers d’intérieur</li>
+              <li>— Entrepreneurs généraux</li>
+              <li>— Plombiers, électriciens, menuisiers</li>
+              <li>— Spécialistes en rénovation</li>
+            </ul>
+          </div>
         </div>
-      </main>
-    </div>
+      </section>
+
+      {/* ================= EXPERIENCE ================= */}
+      <section className="py-32 px-8 md:px-20 bg-white">
+        <div className="grid md:grid-cols-2 gap-16 items-center">
+          <div className="space-y-8">
+            <h2 className="text-3xl font-serif">
+              Simple, transparent, sans engagement
+            </h2>
+
+            <p className="text-lg text-gray-700">
+              Les Bons Bras ne réalisent pas les travaux
+              et n’interviennent pas dans les contrats.
+            </p>
+
+            <p className="text-gray-600">
+              Nous facilitons la mise en relation.
+              Vous restez libre à chaque étape.
+            </p>
+          </div>
+
+          <div className="relative h-[60vh] rounded-xl overflow-hidden shadow-lg">
+            <Image
+              src="/images/artisanv2.jpg"
+              alt="Artisan au travail"
+              fill
+              className="object-cover"
+            />
+          </div>
+        </div>
+      </section>
+
+      {/* ================= CTA ================= */}
+      <section className="py-32 px-8 md:px-20 bg-[#111] text-white">
+        <div className="max-w-4xl space-y-8">
+          <h2 className="text-3xl font-serif">
+            Prêt à démarrer votre projet ?
+          </h2>
+
+          <p className="text-gray-300 max-w-xl">
+            Décrivez vos besoins et recevez
+            des mises en relation ciblées.
+          </p>
+
+          <form className="grid md:grid-cols-2 gap-6 max-w-3xl">
+            <input
+              placeholder="Nom"
+              className="bg-transparent border-b border-gray-500 py-3 focus:outline-none focus:border-white"
+            />
+            <input
+              placeholder="Email"
+              className="bg-transparent border-b border-gray-500 py-3 focus:outline-none focus:border-white"
+            />
+            <input
+              placeholder="Type de projet"
+              className="bg-transparent border-b border-gray-500 py-3 focus:outline-none focus:border-white md:col-span-2"
+            />
+            <textarea
+              placeholder="Message"
+              rows={4}
+              className="bg-transparent border-b border-gray-500 py-3 focus:outline-none focus:border-white md:col-span-2"
+            />
+
+            <button className="mt-6 px-8 py-4 bg-white text-black text-sm uppercase tracking-wide hover:bg-gray-200 transition rounded-sm">
+              Être mis en relation
+            </button>
+          </form>
+        </div>
+      </section>
+
+      {/* ================= FOOTER ================= */}
+      <footer className="py-12 px-8 md:px-20 bg-black text-gray-400 text-sm">
+        <div className="flex justify-between">
+          <span>© Les Bons Bras — Plateforme de mise en relation</span>
+          <span>Mentions légales</span>
+        </div>
+      </footer>
+
+    </main>
   );
 }
