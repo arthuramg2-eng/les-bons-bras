@@ -1,4 +1,6 @@
 import Image from "next/image";
+import Link from "next/link";
+
 
 export default function Home() {
   return (
@@ -28,9 +30,13 @@ export default function Home() {
             les bons experts, simplement.
           </p>
 
-          <button className="px-8 py-4 bg-[#111] text-white text-sm tracking-wide uppercase hover:bg-[#333] transition rounded-sm shadow-md">
-            Trouver un professionnel
-          </button>
+          <Link
+  href="/trouver-un-professionnel"
+  className="px-8 py-4 bg-[#111] text-white text-sm tracking-wide uppercase hover:bg-[#333] transition rounded-sm shadow-md inline-block"
+>
+  Trouver un professionnel
+</Link>
+
         </div>
 
         {/* Image Hero */}
