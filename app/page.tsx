@@ -12,10 +12,20 @@ export default function Home() {
     message: ""
   });
 
+  const [chatInput, setChatInput] = useState("");
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     // Logique de soumission du formulaire
     console.log("Form submitted:", formData);
+  };
+
+  const handleChatSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (chatInput.trim()) {
+      // Rediriger vers la page de chat avec le message initial
+      window.location.href = `/chat-renovation?message=${encodeURIComponent(chatInput)}`;
+    }
   };
 
   return (
@@ -38,6 +48,9 @@ export default function Home() {
               </Link>
               <Link href="/devenir-professionnel" className="text-[#666] hover:text-[#111] font-light transition-colors">
                 Devenir pro
+              </Link>
+              <Link href="/chat-renovation" className="text-[#666] hover:text-[#111] font-light transition-colors">
+                Assistant IA
               </Link>
               <Link href="/#contact" className="px-6 py-2.5 bg-[#4CAF50] text-white rounded-full text-sm font-medium hover:bg-[#45a049] transition-all">
                 Démarrer un projet
@@ -147,6 +160,74 @@ export default function Home() {
                 </p>
               </div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ================= BARRE DE RECHERCHE IA ================= */}
+      <section className="py-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-[#F8F7F4] to-white">
+        <div className="max-w-4xl mx-auto">
+          <div className="bg-white rounded-3xl shadow-xl border border-gray-200 overflow-hidden">
+            {/* Header */}
+            <div className="bg-gradient-to-r from-[#4CAF50] to-[#45a049] p-6">
+              <div className="flex items-center gap-4">
+                <div className="w-14 h-14 bg-white/20 rounded-2xl flex items-center justify-center flex-shrink-0">
+                  <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                  </svg>
+                </div>
+                <div>
+                  <h3 className="text-white font-medium text-xl">Assistant IA Rénovation</h3>
+                  <p className="text-white/90 text-sm font-light">Posez-moi vos questions sur votre projet de rénovation</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Quick Actions */}
+            <div className="p-6 border-b border-gray-100">
+              <div className="flex flex-wrap gap-3">
+                {[
+                  "💡 Idées de rénovation",
+                  "💰 Estimation budget",
+                  "🎨 Conseils déco",
+                  "📐 Planification projet"
+                ].map((action, i) => (
+                  <button
+                    key={i}
+                    onClick={() => setChatInput(action.split(' ').slice(1).join(' '))}
+                    className="px-5 py-2.5 bg-[#4CAF50]/10 text-[#4CAF50] rounded-full text-sm font-light hover:bg-[#4CAF50]/20 transition-all hover:scale-105"
+                  >
+                    {action}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Input Form */}
+            <form onSubmit={handleChatSubmit} className="p-6">
+              <div className="flex gap-4">
+                <input
+                  type="text"
+                  value={chatInput}
+                  onChange={(e) => setChatInput(e.target.value)}
+                  placeholder="Ex: Comment moderniser ma cuisine avec un budget de 10 000€ ?"
+                  className="flex-1 bg-gray-50 rounded-2xl px-6 py-4 text-[#111] placeholder:text-[#666] focus:outline-none focus:ring-2 focus:ring-[#4CAF50] transition-all text-base"
+                />
+                <button
+                  type="submit"
+                  disabled={!chatInput.trim()}
+                  className="px-8 py-4 bg-[#4CAF50] text-white rounded-2xl font-medium hover:bg-[#45a049] transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 shadow-lg hover:shadow-xl"
+                >
+                  <span className="hidden sm:inline">Envoyer</span>
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+                  </svg>
+                </button>
+              </div>
+              <p className="text-xs text-[#666] font-light mt-4 text-center">
+                💬 Obtenez des conseils personnalisés pour votre projet de rénovation
+              </p>
+            </form>
           </div>
         </div>
       </section>
