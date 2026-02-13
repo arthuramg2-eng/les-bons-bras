@@ -1,9 +1,7 @@
-import { NextRequest, NextResponse } from "next/server";
-import OpenAI from "openai";
+export const runtime = "nodejs";
 
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
+import { NextRequest, NextResponse } from "next/server";
+
 
 export async function POST(req: NextRequest) {
   try {
@@ -16,84 +14,77 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Télécharger l'image depuis l'URL base64
+    // Extraire et convertir l'image base64
     const base64Data = imageUrl.split(",")[1];
     const imageBuffer = Buffer.from(base64Data, "base64");
 
-    // Créer un masque transparent (modification complète de l'image)
-    // Pour DALL-E 2 Edit, on a besoin d'une image PNG avec transparence
-    // Ici on crée un masque blanc complet pour modifier toute l'image
     const sharp = require("sharp");
     
-    // Redimensionner l'image à 1024x1024 (requis par DALL-E 2)
+    // Redimensionner à 1024x1024
     const resizedImage = await sharp(imageBuffer)
       .resize(1024, 1024, { fit: "cover" })
       .png()
       .toBuffer();
 
-    // Créer un masque blanc complet (alpha = 255 partout)
+    // Créer un masque NOIR complet pour modifier toute l'image
     const mask = await sharp({
       create: {
         width: 1024,
         height: 1024,
         channels: 4,
-        background: { r: 255, g: 255, b: 255, alpha: 1 }
+        background: { r: 0, g: 0, b: 0, alpha: 0 } // Noir opaque = zone à modifier
       }
     })
     .png()
     .toBuffer();
 
-    // Sauvegarder temporairement les fichiers
-    const fs = require("fs");
-    const path = require("path");
-    const tmpDir = "/tmp";
-    
-    const imagePath = path.join(tmpDir, `image-${Date.now()}.png`);
-    const maskPath = path.join(tmpDir, `mask-${Date.now()}.png`);
-
-    fs.writeFileSync(imagePath, resizedImage);
-    fs.writeFileSync(maskPath, mask);
-
-    // Préparer le prompt de modification
+    // Utiliser les instructions de l'utilisateur OU un prompt par défaut
     const editPrompt = instructions || 
-      "Transform this interior into a modern, bright Scandinavian style with light colors, natural materials, and excellent lighting. Keep the room structure but improve furniture, colors, and decoration.";
+      "Modern Scandinavian interior design with bright colors, natural light, minimalist furniture, and cozy atmosphere.";
 
-    // Appeler DALL-E 2 Edit
-    const response = await openai.images.edit({
-      image: fs.createReadStream(imagePath),
-      mask: fs.createReadStream(maskPath),
-      prompt: editPrompt,
-      n: 1,
-      size: "1024x1024",
+    console.log("Prompt utilisé:", editPrompt);
+
+    // Créer un FormData
+    const formData = new FormData();
+    formData.append("image", new Blob([resizedImage], { type: "image/png" }), "image.png");
+    formData.append("mask", new Blob([mask], { type: "image/png" }), "mask.png");
+    formData.append("model", "dall-e-2");
+    formData.append("prompt", editPrompt);
+    formData.append("n", "1");
+    formData.append("size", "1024x1024");
+
+    // Appeler l'API OpenAI
+    const response = await fetch("https://api.openai.com/v1/images/edits", {
+      method: "POST",
+      headers: {
+        "Authorization": `Bearer ${process.env.OPENAI_API_KEY}`,
+      },
+      body: formData,
     });
 
-    // Nettoyer les fichiers temporaires
-    fs.unlinkSync(imagePath);
-    fs.unlinkSync(maskPath);
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(JSON.stringify(error));
+    }
 
-    // Vérifier que la réponse contient bien les données
-    if (!response.data || !response.data[0]?.url) {
+    const data = await response.json();
+
+    if (!data.data || !data.data[0]?.url) {
       return NextResponse.json(
         { error: "Réponse invalide de l'API OpenAI" },
         { status: 500 }
       );
     }
 
-    const editedImageUrl = response.data[0].url;
-
     return NextResponse.json({
-      editedImageUrl,
+      editedImageUrl: data.data[0].url,
       prompt: editPrompt,
     });
 
   } catch (error: any) {
-    console.error("Erreur lors de l'édition d'image:", error);
-    
+    console.error("Erreur:", error);
     return NextResponse.json(
-      { 
-        error: "Erreur lors de la modification de l'image",
-        details: error.message 
-      },
+      { error: "Erreur lors de la modification", details: error.message },
       { status: 500 }
     );
   }

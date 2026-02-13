@@ -53,6 +53,29 @@ export default function ChatRenovation() {
     }
   };
 
+  const transformationStyles = [
+    {
+      name: "Moderne & épuré",
+      prompt: "Modern minimalist interior design. Clean lines, neutral color palette (whites, grays, soft beiges), contemporary furniture, excellent natural and artificial lighting, uncluttered space, refined decor. Keep the room structure but make it look sleek and professional."
+    },
+    {
+      name: "Scandinave cosy",
+      prompt: "Scandinavian interior design. Light wood elements, warm textiles, natural light, hygge atmosphere, cozy seating areas, plants, warm white color palette, functional minimalism. Make it feel warm and inviting while maintaining simplicity."
+    },
+    {
+      name: "Industriel chic",
+      prompt: "Industrial modern interior design. Exposed brick or concrete elements, metal fixtures, vintage-industrial furniture, exposed lighting, large windows with natural light, earthy color palette. Keep raw materials visible but add contemporary touches."
+    },
+    {
+      name: "Classique moderne",
+      prompt: "Contemporary classic interior design. Elegant furniture pieces, refined color palette (cream, navy, gold accents), good lighting, timeless design elements, mix of traditional and modern styles. Sophisticated and balanced aesthetic."
+    },
+    {
+      name: "Luxe minimaliste",
+      prompt: "Luxury minimalist interior design. Premium materials, high-end furniture, sophisticated color scheme, excellent lighting design, spacious feel, subtle elegant decor. Make it look like a luxury apartment with minimal, refined style."
+    }
+  ];
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if ((!input.trim() && !selectedImage) || isLoading) return;
@@ -108,10 +131,14 @@ export default function ChatRenovation() {
     }
   };
 
-  const handleEditImage = async (originalImage: string, instructions: string) => {
+  const handleEditImage = async (originalImage: string, styleIndex?: number) => {
     setIsLoading(true);
     
     try {
+      const instructions = styleIndex !== undefined 
+        ? transformationStyles[styleIndex].prompt
+        : transformationStyles[0].prompt;
+
       const response = await fetch("/api/image-edit", {
         method: "POST",
         headers: {
@@ -123,22 +150,25 @@ export default function ChatRenovation() {
         }),
       });
 
-      if (!response.ok) throw new Error("Erreur lors de la modification");
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || "Erreur lors de la modification");
+      }
 
       const data = await response.json();
+      const styleName = styleIndex !== undefined ? transformationStyles[styleIndex].name : "personnalisée";
 
-      // Ajouter le message avec l'image modifiée
       setMessages(prev => [...prev, {
         role: "assistant",
-        content: "Voici votre pièce transformée ! ✨",
+        content: `✨ Votre pièce transformée en style ${styleName} !\n\nVoici une visualisation de votre espace rénové. Ce projet vous plaît ? Contactez nos professionnels vérifiés pour concrétiser cette transformation !`,
         editedImage: data.editedImageUrl
       }]);
 
-    } catch (error) {
+    } catch (error: any) {
       console.error("Erreur:", error);
       setMessages(prev => [...prev, {
         role: "assistant",
-        content: "Désolé, je n'ai pas pu modifier l'image. Veuillez réessayer."
+        content: `Désolé, je n'ai pas pu transformer l'image. ${error.message || "Veuillez réessayer."}`
       }]);
     } finally {
       setIsLoading(false);
@@ -240,18 +270,23 @@ export default function ChatRenovation() {
                       </p>
                     </div>
 
-                    {/* Bouton pour modifier l'image (si c'est un message avec image de l'utilisateur) */}
-                    {message.role === "user" && message.image && index === messages.length - 2 && (
-                      <button
-                        onClick={() => handleEditImage(message.image!, "Moderniser cette pièce avec des couleurs claires, un style scandinave et une meilleure luminosité")}
-                        disabled={isLoading}
-                        className="mt-2 text-sm text-[#4CAF50] hover:text-[#45a049] font-light flex items-center gap-1 disabled:opacity-50"
-                      >
-                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
-                        </svg>
-                        Transformer cette pièce
-                      </button>
+                    {/* Boutons pour modifier l'image avec différents styles */}
+                    {message.role === "user" && message.image && (
+                      <div className="mt-4 space-y-2">
+                        <p className="text-xs text-[#666] font-light mb-2">Visualisez votre pièce transformée :</p>
+                        <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                          {transformationStyles.map((style, idx) => (
+                            <button
+                              key={idx}
+                              onClick={() => handleEditImage(message.image!, idx)}
+                              disabled={isLoading}
+                              className="px-3 py-2 bg-white border-2 border-[#4CAF50] text-[#4CAF50] rounded-lg text-xs font-light hover:bg-[#4CAF50] hover:text-white transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                            >
+                              {style.name}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
                     )}
                   </div>
 
