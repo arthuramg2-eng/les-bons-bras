@@ -71,6 +71,14 @@ export async function POST(req: NextRequest) {
     fs.unlinkSync(imagePath);
     fs.unlinkSync(maskPath);
 
+    // Vérifier que la réponse contient bien les données
+    if (!response.data || !response.data[0]?.url) {
+      return NextResponse.json(
+        { error: "Réponse invalide de l'API OpenAI" },
+        { status: 500 }
+      );
+    }
+
     const editedImageUrl = response.data[0].url;
 
     return NextResponse.json({
