@@ -50,11 +50,14 @@ export default function Home() {
                 Devenir pro
               </Link>
               <Link href="/chat-renovation" className="text-[#666] hover:text-[#111] font-light transition-colors">
-                Assistant IA
-              </Link>
-              <Link href="/#contact" className="px-6 py-2.5 bg-[#4CAF50] text-white rounded-full text-sm font-medium hover:bg-[#45a049] transition-all">
-                Démarrer un projet
-              </Link>
+  Assistant IA
+</Link>
+<Link href="/connexion" className="text-[#666] hover:text-[#111] font-light transition-colors">
+  Connexion
+</Link>
+<Link href="/#contact" className="px-6 py-2.5 bg-[#4CAF50] text-white rounded-full text-sm font-medium hover:bg-[#45a049] transition-all">
+  Démarrer un projet
+</Link>
             </div>
 
             {/* Mobile menu button */}
