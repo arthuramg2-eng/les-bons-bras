@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
+import { createClient } from "@/lib/supabase/client";
 
 /* ─────────────────────────── TYPES ─────────────────────────── */
 
@@ -16,6 +17,7 @@ type AuthMode = "login" | "signup";
 
 export default function ConnexionPage() {
   const router = useRouter();
+  const supabase = createClient();
   const [role, setRole] = useState<UserRole | null>(null);
   const [authMode, setAuthMode] = useState<AuthMode>("login");
   const [email, setEmail] = useState("");
@@ -36,11 +38,7 @@ export default function ConnexionPage() {
     setError(null);
 
     try {
-      const { createClient } = await import("@supabase/supabase-js");
-      const supabase = createClient(
-        process.env.NEXT_PUBLIC_SUPABASE_URL!,
-        process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-      );
+      
 
       if (authMode === "signup") {
         const { data, error: signUpError } = await supabase.auth.signUp({
@@ -61,12 +59,14 @@ export default function ConnexionPage() {
 
         if (signUpError) throw signUpError;
         router.push("/dashboard");
+        router.refresh();
       } else {
         const { data, error: signInError } =
           await supabase.auth.signInWithPassword({ email, password });
 
         if (signInError) throw signInError;
         router.push("/dashboard");
+        router.refresh();
       }
     } catch (err: any) {
       setError(
@@ -81,11 +81,7 @@ export default function ConnexionPage() {
 
   const handleGoogleAuth = async () => {
     try {
-      const { createClient } = await import("@supabase/supabase-js");
-      const supabase = createClient(
-        process.env.NEXT_PUBLIC_SUPABASE_URL!,
-        process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-      );
+      
 
       await supabase.auth.signInWithOAuth({
         provider: "google",
