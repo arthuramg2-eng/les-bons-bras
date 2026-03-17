@@ -65,6 +65,22 @@ export default function TrouverUnProfessionnelPage() {
     setRequestError(null);
 
     try {
+      // 0. S'assurer que le profil client existe (rattrapage si absent)
+      const { data: existingProfile } = await (supabase.from("client_profiles") as any)
+        .select("id").eq("user_id", currentUserId).single();
+
+      if (!existingProfile) {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (user) {
+          await (supabase.from("client_profiles") as any).upsert({
+            user_id: currentUserId,
+            full_name: user.user_metadata?.full_name || "Client",
+            email: user.email || "",
+            phone: user.user_metadata?.phone || null,
+          }, { onConflict: "user_id" });
+        }
+      }
+
       // 1. Créer le projet
       const { data: project, error: projectError } = await (supabase.from("projects") as any)
         .insert({
@@ -83,7 +99,7 @@ export default function TrouverUnProfessionnelPage() {
       if (projectError) throw projectError;
 
       // 2. Créer la demande au pro
-      const { error: requestError } = await (supabase.from("project_requests") as any)
+      const { error: insertError } = await (supabase.from("project_requests") as any)
         .insert({
           project_id: project.id,
           client_id: currentUserId,
@@ -92,7 +108,7 @@ export default function TrouverUnProfessionnelPage() {
           message: requestMessage || null,
         });
 
-      if (requestError) throw requestError;
+      if (insertError) throw insertError;
 
       setRequestSent(true);
     } catch (err: any) {

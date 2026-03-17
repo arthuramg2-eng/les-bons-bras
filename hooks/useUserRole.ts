@@ -49,7 +49,34 @@ export function useUserRole() {
         }
 
         if (metaRole) {
-          setState({ role: metaRole, profile: null, userId: user.id, loading: false, error: null });
+          // Auto-create missing profile from auth metadata
+          let createdProfile = null;
+          if (metaRole === "client") {
+            const { data } = await (supabase.from("client_profiles") as any).upsert({
+              user_id: user.id,
+              full_name: user.user_metadata?.full_name || "Client",
+              email: user.email || "",
+              phone: user.user_metadata?.phone || null,
+            }, { onConflict: "user_id" }).select().single();
+            createdProfile = data;
+          } else if (metaRole === "professionnel") {
+            const { data } = await (supabase.from("pro_profiles") as any).upsert({
+              user_id: user.id,
+              full_name: user.user_metadata?.full_name || "Professionnel",
+              email: user.email || "",
+              phone: user.user_metadata?.phone || null,
+              company_name: user.user_metadata?.company_name || "",
+              license_rbq: user.user_metadata?.license_rbq || null,
+              specialty: [],
+              verified: false,
+              rating: 0,
+              total_reviews: 0,
+              years_experience: 0,
+              onboarding_complete: false,
+            }, { onConflict: "user_id" }).select().single();
+            createdProfile = data;
+          }
+          setState({ role: metaRole, profile: createdProfile, userId: user.id, loading: false, error: null });
           return;
         }
 

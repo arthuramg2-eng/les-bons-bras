@@ -58,6 +58,34 @@ export default function ConnexionPage() {
         });
 
         if (signUpError) throw signUpError;
+
+        const newUserId = data.user?.id;
+        if (newUserId) {
+          if (role === "client") {
+            await (supabase.from("client_profiles") as any).upsert({
+              user_id: newUserId,
+              full_name: fullName,
+              email,
+              phone: phone || null,
+            }, { onConflict: "user_id" });
+          } else if (role === "professionnel") {
+            await (supabase.from("pro_profiles") as any).upsert({
+              user_id: newUserId,
+              full_name: fullName,
+              email,
+              phone: phone || null,
+              company_name: companyName,
+              license_rbq: licenseRBQ || null,
+              specialty: [],
+              verified: false,
+              rating: 0,
+              total_reviews: 0,
+              years_experience: 0,
+              onboarding_complete: false,
+            }, { onConflict: "user_id" });
+          }
+        }
+
         router.push("/dashboard");
         router.refresh();
       } else {

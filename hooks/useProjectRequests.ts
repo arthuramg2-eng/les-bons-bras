@@ -22,8 +22,18 @@ export function useProjectRequests(userId: string | null, role: string | null) {
         (supabase.from("projects") as any).select("*").eq("id", req.project_id).single(),
         (supabase.from("client_profiles") as any).select("*").eq("user_id", req.client_id).single(),
       ]);
-      if (projectRes.data && clientRes.data) {
-        enriched.push({ ...req, project: projectRes.data, client: clientRes.data });
+      if (projectRes.data) {
+        const clientFallback = clientRes.data || {
+          id: req.client_id,
+          user_id: req.client_id,
+          full_name: "Client",
+          email: "",
+          phone: null,
+          avatar_url: null,
+          created_at: req.created_at,
+          updated_at: req.created_at,
+        };
+        enriched.push({ ...req, project: projectRes.data, client: clientFallback });
       }
     }
     setRequests(enriched);
