@@ -216,9 +216,9 @@ export default function OnboardingPage() {
 
   if (roleLoading) {
     return (
-      <main className="min-h-screen bg-[#F8F7F4] flex items-center justify-center">
+      <main className="min-h-screen bg-[#F4F0EB] flex items-center justify-center">
         <motion.div
-          className="w-12 h-12 border-3 border-[#4CAF50]/20 border-t-[#4CAF50] rounded-full"
+          className="w-12 h-12 border-3 border-[#2C5F3F]/20 border-t-[#2C5F3F] rounded-full"
           animate={{ rotate: 360 }}
           transition={{ duration: 0.8, repeat: Infinity, ease: "linear" }}
         />
@@ -231,13 +231,13 @@ export default function OnboardingPage() {
      ═══════════════════════════════════════════════════════════════ */
 
   return (
-    <main className="min-h-screen bg-[#F8F7F4] text-[#111]">
+    <main className="min-h-screen bg-[#F4F0EB] text-[#111]">
       {/* Navbar minimal */}
       <nav className="fixed top-0 w-full bg-white/95 backdrop-blur-md border-b border-gray-100 z-50">
         <div className="max-w-3xl mx-auto px-4 sm:px-6">
           <div className="flex justify-between items-center h-16">
             <Link href="/" className="flex items-center gap-2">
-              <span className="text-3xl text-[#4CAF50] font-bold">*</span>
+              <span className="text-3xl text-[#2C5F3F] font-bold">*</span>
               <span className="text-xl font-light tracking-tight">Les Bons Bras</span>
             </Link>
             <span className="text-sm text-[#999] font-light">Étape {step}/4</span>
@@ -252,7 +252,7 @@ export default function OnboardingPage() {
             {[1, 2, 3, 4].map((s) => (
               <div key={s} className="flex-1 h-1.5 rounded-full overflow-hidden bg-gray-200">
                 <motion.div
-                  className="h-full rounded-full bg-[#4CAF50]"
+                  className="h-full rounded-full bg-[#2C5F3F]"
                   initial={{ width: 0 }}
                   animate={{ width: s <= step ? "100%" : "0%" }}
                   transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
@@ -273,7 +273,7 @@ export default function OnboardingPage() {
               transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
             >
               <h1 className="text-3xl md:text-4xl font-light tracking-tight mb-3">
-                Complétez votre <span className="text-[#4CAF50]">profil professionnel</span>
+                Complétez votre <span className="text-[#2C5F3F]">profil professionnel</span>
               </h1>
               <p className="text-[#666] font-light mb-10">
                 Ces informations seront visibles par les clients sur votre page.
@@ -283,40 +283,40 @@ export default function OnboardingPage() {
                 <div>
                   <label className="block text-sm text-[#666] font-light mb-1.5">Nom complet *</label>
                   <input type="text" value={fullName} onChange={(e) => setFullName(e.target.value)} placeholder="Jean Tremblay"
-                    className="w-full bg-white border border-gray-200 rounded-xl px-5 py-3.5 text-[#111] placeholder:text-[#999] text-sm font-light focus:outline-none focus:ring-2 focus:ring-[#4CAF50] transition-all" />
+                    className="w-full bg-white border border-gray-200 rounded-xl px-5 py-3.5 text-[#111] placeholder:text-[#999] text-sm font-light focus:outline-none focus:ring-2 focus:ring-[#2C5F3F] transition-all" />
                 </div>
                 <div>
                   <label className="block text-sm text-[#666] font-light mb-1.5">Nom de l&apos;entreprise *</label>
                   <input type="text" value={companyName} onChange={(e) => setCompanyName(e.target.value)} placeholder="Rénovations XYZ inc."
-                    className="w-full bg-white border border-gray-200 rounded-xl px-5 py-3.5 text-[#111] placeholder:text-[#999] text-sm font-light focus:outline-none focus:ring-2 focus:ring-[#4CAF50] transition-all" />
+                    className="w-full bg-white border border-gray-200 rounded-xl px-5 py-3.5 text-[#111] placeholder:text-[#999] text-sm font-light focus:outline-none focus:ring-2 focus:ring-[#2C5F3F] transition-all" />
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <label className="block text-sm text-[#666] font-light mb-1.5">Téléphone</label>
                     <input type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="(514) 555-1234"
-                      className="w-full bg-white border border-gray-200 rounded-xl px-5 py-3.5 text-[#111] placeholder:text-[#999] text-sm font-light focus:outline-none focus:ring-2 focus:ring-[#4CAF50] transition-all" />
+                      className="w-full bg-white border border-gray-200 rounded-xl px-5 py-3.5 text-[#111] placeholder:text-[#999] text-sm font-light focus:outline-none focus:ring-2 focus:ring-[#2C5F3F] transition-all" />
                   </div>
                   <div>
                     <label className="block text-sm text-[#666] font-light mb-1.5">Licence RBQ</label>
                     <input type="text" value={licenseRBQ} onChange={(e) => setLicenseRBQ(e.target.value)} placeholder="1234-5678-90"
-                      className="w-full bg-white border border-gray-200 rounded-xl px-5 py-3.5 text-[#111] placeholder:text-[#999] text-sm font-light focus:outline-none focus:ring-2 focus:ring-[#4CAF50] transition-all" />
+                      className="w-full bg-white border border-gray-200 rounded-xl px-5 py-3.5 text-[#111] placeholder:text-[#999] text-sm font-light focus:outline-none focus:ring-2 focus:ring-[#2C5F3F] transition-all" />
                   </div>
                 </div>
                 <div className="grid grid-cols-3 gap-4">
                   <div>
                     <label className="block text-sm text-[#666] font-light mb-1.5">Années d&apos;exp.</label>
                     <input type="number" value={yearsExperience} onChange={(e) => setYearsExperience(e.target.value)} placeholder="10"
-                      className="w-full bg-white border border-gray-200 rounded-xl px-5 py-3.5 text-[#111] placeholder:text-[#999] text-sm font-light focus:outline-none focus:ring-2 focus:ring-[#4CAF50] transition-all" />
+                      className="w-full bg-white border border-gray-200 rounded-xl px-5 py-3.5 text-[#111] placeholder:text-[#999] text-sm font-light focus:outline-none focus:ring-2 focus:ring-[#2C5F3F] transition-all" />
                   </div>
                   <div>
                     <label className="block text-sm text-[#666] font-light mb-1.5">Zone de service</label>
                     <input type="text" value={serviceArea} onChange={(e) => setServiceArea(e.target.value)} placeholder="Grand Montréal"
-                      className="w-full bg-white border border-gray-200 rounded-xl px-5 py-3.5 text-[#111] placeholder:text-[#999] text-sm font-light focus:outline-none focus:ring-2 focus:ring-[#4CAF50] transition-all" />
+                      className="w-full bg-white border border-gray-200 rounded-xl px-5 py-3.5 text-[#111] placeholder:text-[#999] text-sm font-light focus:outline-none focus:ring-2 focus:ring-[#2C5F3F] transition-all" />
                   </div>
                   <div>
                     <label className="block text-sm text-[#666] font-light mb-1.5">Taux horaire ($)</label>
                     <input type="number" value={hourlyRate} onChange={(e) => setHourlyRate(e.target.value)} placeholder="75"
-                      className="w-full bg-white border border-gray-200 rounded-xl px-5 py-3.5 text-[#111] placeholder:text-[#999] text-sm font-light focus:outline-none focus:ring-2 focus:ring-[#4CAF50] transition-all" />
+                      className="w-full bg-white border border-gray-200 rounded-xl px-5 py-3.5 text-[#111] placeholder:text-[#999] text-sm font-light focus:outline-none focus:ring-2 focus:ring-[#2C5F3F] transition-all" />
                   </div>
                 </div>
               </div>
@@ -333,7 +333,7 @@ export default function OnboardingPage() {
               transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
             >
               <h1 className="text-3xl md:text-4xl font-light tracking-tight mb-3">
-                Vos <span className="text-[#4CAF50]">spécialités</span>
+                Vos <span className="text-[#2C5F3F]">spécialités</span>
               </h1>
               <p className="text-[#666] font-light mb-10">
                 Sélectionnez les catégories dans lesquelles vous offrez vos services.
@@ -348,19 +348,19 @@ export default function OnboardingPage() {
                       onClick={() => toggleSpecialty(spec.id)}
                       className={`group p-6 rounded-2xl text-left border-2 transition-all duration-300 hover:-translate-y-1 ${
                         selected
-                          ? "border-[#4CAF50] bg-[#4CAF50]/5 shadow-lg"
-                          : "border-gray-100 bg-white hover:border-[#4CAF50]/30 hover:shadow-lg"
+                          ? "border-[#2C5F3F] bg-[#2C5F3F]/5 shadow-lg"
+                          : "border-gray-100 bg-white hover:border-[#2C5F3F]/30 hover:shadow-lg"
                       }`}
                     >
                       <div className="text-3xl mb-3">{spec.icon}</div>
-                      <h3 className={`text-lg font-medium ${selected ? "text-[#4CAF50]" : "text-[#111]"}`}>
+                      <h3 className={`text-lg font-medium ${selected ? "text-[#2C5F3F]" : "text-[#111]"}`}>
                         {spec.label}
                       </h3>
                       {selected && (
                         <motion.div
                           initial={{ scale: 0 }}
                           animate={{ scale: 1 }}
-                          className="mt-2 w-6 h-6 rounded-full bg-[#4CAF50] flex items-center justify-center"
+                          className="mt-2 w-6 h-6 rounded-full bg-[#2C5F3F] flex items-center justify-center"
                         >
                           <svg className="w-3.5 h-3.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
@@ -384,7 +384,7 @@ export default function OnboardingPage() {
               transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
             >
               <h1 className="text-3xl md:text-4xl font-light tracking-tight mb-3">
-                Votre <span className="text-[#4CAF50]">portfolio</span>
+                Votre <span className="text-[#2C5F3F]">portfolio</span>
               </h1>
               <p className="text-[#666] font-light mb-10">
                 Ajoutez une photo de profil et des photos de vos réalisations.
@@ -396,7 +396,7 @@ export default function OnboardingPage() {
                 <div className="flex items-center gap-5">
                   <button
                     onClick={() => avatarInputRef.current?.click()}
-                    className="w-24 h-24 rounded-2xl border-2 border-dashed border-gray-300 hover:border-[#4CAF50] flex items-center justify-center overflow-hidden transition-colors bg-white"
+                    className="w-24 h-24 rounded-2xl border-2 border-dashed border-gray-300 hover:border-[#2C5F3F] flex items-center justify-center overflow-hidden transition-colors bg-white"
                   >
                     {avatarPreview ? (
                       <img src={avatarPreview} alt="Avatar" className="w-full h-full object-cover" />
@@ -443,7 +443,7 @@ export default function OnboardingPage() {
                   {portfolio.length < 10 && (
                     <button
                       onClick={() => fileInputRef.current?.click()}
-                      className="aspect-[4/3] rounded-xl border-2 border-dashed border-gray-300 hover:border-[#4CAF50] flex flex-col items-center justify-center transition-colors bg-white"
+                      className="aspect-[4/3] rounded-xl border-2 border-dashed border-gray-300 hover:border-[#2C5F3F] flex flex-col items-center justify-center transition-colors bg-white"
                     >
                       <svg className="w-8 h-8 text-[#ccc] mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
@@ -468,7 +468,7 @@ export default function OnboardingPage() {
               transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
             >
               <h1 className="text-3xl md:text-4xl font-light tracking-tight mb-3">
-                Parlez de <span className="text-[#4CAF50]">vous</span>
+                Parlez de <span className="text-[#2C5F3F]">vous</span>
               </h1>
               <p className="text-[#666] font-light mb-10">
                 Décrivez votre expérience, votre approche et ce qui vous distingue.
@@ -479,7 +479,7 @@ export default function OnboardingPage() {
                 onChange={(e) => setBio(e.target.value)}
                 rows={8}
                 placeholder="Avec plus de 15 ans d'expérience dans la rénovation résidentielle au Québec, notre équipe se spécialise dans..."
-                className="w-full bg-white border border-gray-200 rounded-xl px-5 py-4 text-[#111] placeholder:text-[#999] text-sm font-light focus:outline-none focus:ring-2 focus:ring-[#4CAF50] transition-all resize-none"
+                className="w-full bg-white border border-gray-200 rounded-xl px-5 py-4 text-[#111] placeholder:text-[#999] text-sm font-light focus:outline-none focus:ring-2 focus:ring-[#2C5F3F] transition-all resize-none"
               />
               <p className="text-xs text-[#999] font-light mt-2 text-right">{bio.length}/1000 caractères</p>
 
@@ -541,7 +541,7 @@ export default function OnboardingPage() {
             <button
               onClick={() => setStep((s) => (s + 1) as Step)}
               disabled={!canProceed()}
-              className="flex-1 py-4 rounded-full text-sm font-medium text-white bg-[#4CAF50] hover:bg-[#45a049] shadow-lg hover:shadow-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+              className="flex-1 py-4 rounded-full text-sm font-medium text-white bg-[#2C5F3F] hover:bg-[#234B32] shadow-lg hover:shadow-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
             >
               Continuer
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -552,7 +552,7 @@ export default function OnboardingPage() {
             <button
               onClick={handleSubmit}
               disabled={isSubmitting}
-              className="flex-1 py-4 rounded-full text-sm font-medium text-white bg-[#4CAF50] hover:bg-[#45a049] shadow-lg hover:shadow-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+              className="flex-1 py-4 rounded-full text-sm font-medium text-white bg-[#2C5F3F] hover:bg-[#234B32] shadow-lg hover:shadow-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
             >
               {isSubmitting ? (
                 <>

@@ -7,6 +7,13 @@ export type PhaseStatus = "done" | "in_progress" | "pending";
 export type CostCategory = "materiaux" | "main_oeuvre" | "permis" | "autre";
 export type RequestStatus = "pending" | "accepted" | "declined";
 
+export interface PortfolioItem {
+  title: string;
+  description: string;
+  tags: string[];
+  year: number;
+}
+
 export interface ClientProfile {
   id: string;
   user_id: string;
@@ -29,6 +36,7 @@ export interface ProProfile {
   specialty: string[];
   description: string | null;
   avatar_url: string | null;
+  cover_url: string | null;
   verified: boolean;
   rating: number;
   total_reviews: number;
@@ -40,6 +48,21 @@ export interface ProProfile {
   service_area: string | null;
   hourly_rate: number | null;
   onboarding_complete: boolean;
+  // Location fields
+  address: string | null;
+  latitude: number | null;
+  longitude: number | null;
+  // Enriched profile fields
+  tagline: string | null;
+  website: string | null;
+  instagram: string | null;
+  facebook: string | null;
+  founded_year: number | null;
+  team_size: number | null;
+  certifications: string[] | null;
+  languages: string[] | null;
+  availability: string | null;
+  portfolio_items: PortfolioItem[] | null;
 }
 
 export interface ProPortfolio {
@@ -108,6 +131,16 @@ export interface ProjectRequest {
   message: string | null;
   created_at: string;
   updated_at: string;
+}
+
+export interface Review {
+  id: string;
+  pro_id: string;
+  client_name: string;
+  rating: number;
+  comment: string | null;
+  project_type: string | null;
+  created_at: string;
 }
 
 /* ─── Joined types ─── */

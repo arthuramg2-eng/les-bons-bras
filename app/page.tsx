@@ -37,7 +37,7 @@ export default function Home() {
           <div className="flex justify-between items-center h-20">
             {/* Logo */}
             <Link href="/" className="flex items-center gap-2 group">
-              <span className="text-3xl text-[#4CAF50] font-bold">*</span>
+              <span className="text-3xl text-[#2C5F3F] font-bold">*</span>
               <span className="text-xl font-light tracking-tight">Les Bons Bras</span>
             </Link>
 
@@ -55,7 +55,7 @@ export default function Home() {
 <Link href="/connexion" className="text-[#666] hover:text-[#111] font-light transition-colors">
   Connexion
 </Link>
-<Link href="/#contact" className="px-6 py-2.5 bg-[#4CAF50] text-white rounded-full text-sm font-medium hover:bg-[#45a049] transition-all">
+<Link href="/#contact" className="px-6 py-2.5 bg-[#E2711D] text-white rounded-full text-sm font-medium hover:bg-[#C85D16] transition-all">
   Démarrer un projet
 </Link>
             </div>
@@ -74,8 +74,8 @@ export default function Home() {
       <section className="relative min-h-screen flex items-center pt-20">
         {/* Background gradients */}
         <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute -top-40 -left-40 w-[600px] h-[600px] bg-[#4CAF50] rounded-full blur-3xl opacity-5" />
-          <div className="absolute top-1/2 -right-40 w-[500px] h-[500px] bg-[#4CAF50] rounded-full blur-3xl opacity-5" />
+          <div className="absolute -top-40 -left-40 w-[600px] h-[600px] bg-[#2C5F3F] rounded-full blur-3xl opacity-5" />
+          <div className="absolute top-1/2 -right-40 w-[500px] h-[500px] bg-[#E2711D] rounded-full blur-3xl opacity-5" />
         </div>
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 w-full">
@@ -83,14 +83,14 @@ export default function Home() {
             
             {/* Left content */}
             <div className="space-y-8">
-              <div className="inline-flex items-center gap-2 bg-[#4CAF50]/10 px-4 py-2 rounded-full">
-                <span className="w-2 h-2 bg-[#4CAF50] rounded-full animate-pulse" />
-                <span className="text-sm font-light text-[#4CAF50]">+2 500 professionnels vérifiés</span>
+              <div className="inline-flex items-center gap-2 bg-[#E2711D]/10 px-4 py-2 rounded-full">
+                <span className="w-2 h-2 bg-[#E2711D] rounded-full animate-pulse" />
+                <span className="text-sm font-light text-[#E2711D]">+2 500 professionnels vérifiés</span>
               </div>
 
               <h1 className="text-5xl md:text-7xl font-light tracking-tight leading-[1.1]">
                 Trouvez les meilleurs<br />
-                <span className="text-[#4CAF50]">professionnels</span><br />
+                <span className="text-[#2C5F3F]">professionnels</span><br />
                 pour vos travaux
               </h1>
 
@@ -102,7 +102,7 @@ export default function Home() {
               <div className="flex flex-col sm:flex-row gap-4 pt-4">
                 <Link
                   href="/trouver-un-professionnel"
-                  className="group px-8 py-4 bg-[#4CAF50] text-white rounded-full font-medium hover:bg-[#45a049] transition-all inline-flex items-center justify-center gap-2 shadow-lg hover:shadow-xl"
+                  className="group px-8 py-4 bg-[#2C5F3F] text-white rounded-full font-medium hover:bg-[#234B32] transition-all inline-flex items-center justify-center gap-2 shadow-lg hover:shadow-xl"
                 >
                   Trouver un professionnel
                   <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -111,7 +111,7 @@ export default function Home() {
                 </Link>
                 <Link
                   href="#comment-ca-marche"
-                  className="px-8 py-4 border-2 border-[#111] text-[#111] rounded-full font-medium hover:bg-[#111] hover:text-white transition-all inline-flex items-center justify-center"
+                  className="px-8 py-4 border-2 border-[#E2711D] text-[#E2711D] rounded-full font-medium hover:bg-[#E2711D] hover:text-white transition-all inline-flex items-center justify-center"
                 >
                   Comment ça marche
                 </Link>
@@ -120,15 +120,15 @@ export default function Home() {
               {/* Social proof */}
               <div className="flex items-center gap-8 pt-8 border-t border-gray-100">
                 <div>
-                  <div className="text-3xl font-light text-[#111]">4.9/5</div>
+                  <div className="text-3xl font-light text-[#E2711D]">4.9/5</div>
                   <div className="text-sm text-[#666] font-light">Note moyenne</div>
                 </div>
                 <div>
-                  <div className="text-3xl font-light text-[#111]">12k+</div>
+                  <div className="text-3xl font-light text-[#2C5F3F]">12k+</div>
                   <div className="text-sm text-[#666] font-light">Projets réalisés</div>
                 </div>
                 <div>
-                  <div className="text-3xl font-light text-[#111]">98%</div>
+                  <div className="text-3xl font-light text-[#E2711D]">98%</div>
                   <div className="text-sm text-[#666] font-light">Satisfaction client</div>
                 </div>
               </div>
@@ -138,7 +138,7 @@ export default function Home() {
             <div className="relative">
               <div className="relative h-[600px] rounded-3xl overflow-hidden shadow-2xl">
                 <Image
-                  src="/images/resultat.jpg"
+                  src="/images/Réno 1.jpg"
                   alt="Projet de rénovation"
                   fill
                   className="object-cover"
@@ -148,14 +148,14 @@ export default function Home() {
               {/* Floating card */}
               <div className="absolute -bottom-6 -left-6 bg-white p-6 rounded-2xl shadow-xl max-w-xs">
                 <div className="flex items-center gap-3 mb-3">
-                  <div className="w-12 h-12 bg-[#4CAF50]/10 rounded-full flex items-center justify-center">
-                    <svg className="w-6 h-6 text-[#4CAF50]" fill="currentColor" viewBox="0 0 20 20">
+                  <div className="w-12 h-12 bg-[#E2711D]/10 rounded-full flex items-center justify-center">
+                    <svg className="w-6 h-6 text-[#E2711D]" fill="currentColor" viewBox="0 0 20 20">
                       <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                     </svg>
                   </div>
                   <div>
                     <div className="font-medium text-[#111]">Marie L.</div>
-                    <div className="text-sm text-[#666] font-light">Paris 15ème</div>
+                    <div className="text-sm text-[#666] font-light">Montréal, Rosemont</div>
                   </div>
                 </div>
                 <p className="text-sm text-[#666] font-light italic">
@@ -168,11 +168,11 @@ export default function Home() {
       </section>
 
       {/* ================= BARRE DE RECHERCHE IA ================= */}
-      <section className="py-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-[#F8F7F4] to-white">
+      <section className="py-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-[#F4F0EB] to-white">
         <div className="max-w-4xl mx-auto">
           <div className="bg-white rounded-3xl shadow-xl border border-gray-200 overflow-hidden">
             {/* Header */}
-            <div className="bg-gradient-to-r from-[#4CAF50] to-[#45a049] p-6">
+            <div className="bg-gradient-to-r from-[#2C5F3F] to-[#234B32] p-6">
               <div className="flex items-center gap-4">
                 <div className="w-14 h-14 bg-white/20 rounded-2xl flex items-center justify-center flex-shrink-0">
                   <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -198,7 +198,7 @@ export default function Home() {
                   <button
                     key={i}
                     onClick={() => setChatInput(action.split(' ').slice(1).join(' '))}
-                    className="px-5 py-2.5 bg-[#4CAF50]/10 text-[#4CAF50] rounded-full text-sm font-light hover:bg-[#4CAF50]/20 transition-all hover:scale-105"
+                    className="px-5 py-2.5 bg-[#E2711D]/10 text-[#E2711D] rounded-full text-sm font-light hover:bg-[#E2711D]/20 transition-all hover:scale-105"
                   >
                     {action}
                   </button>
@@ -213,13 +213,13 @@ export default function Home() {
                   type="text"
                   value={chatInput}
                   onChange={(e) => setChatInput(e.target.value)}
-                  placeholder="Ex: Comment moderniser ma cuisine avec un budget de 10 000€ ?"
-                  className="flex-1 bg-gray-50 rounded-2xl px-6 py-4 text-[#111] placeholder:text-[#666] focus:outline-none focus:ring-2 focus:ring-[#4CAF50] transition-all text-base"
+                  placeholder="Ex: Comment moderniser ma cuisine avec un budget de 10 000$ ?"
+                  className="flex-1 bg-gray-50 rounded-2xl px-6 py-4 text-[#111] placeholder:text-[#666] focus:outline-none focus:ring-2 focus:ring-[#2C5F3F] transition-all text-base"
                 />
                 <button
                   type="submit"
                   disabled={!chatInput.trim()}
-                  className="px-8 py-4 bg-[#4CAF50] text-white rounded-2xl font-medium hover:bg-[#45a049] transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 shadow-lg hover:shadow-xl"
+                  className="px-8 py-4 bg-[#2C5F3F] text-white rounded-2xl font-medium hover:bg-[#234B32] transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 shadow-lg hover:shadow-xl"
                 >
                   <span className="hidden sm:inline">Envoyer</span>
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -236,7 +236,7 @@ export default function Home() {
       </section>
 
       {/* ================= SERVICES GRID ================= */}
-      <section className="py-24 px-4 sm:px-6 lg:px-8 bg-[#F8F7F4]">
+      <section className="py-24 px-4 sm:px-6 lg:px-8 bg-[#F4F0EB]">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-light mb-4">Tous les corps de métier</h2>
@@ -259,7 +259,7 @@ export default function Home() {
               >
                 <div className="text-4xl mb-3">{service.icon}</div>
                 <div className="font-medium text-[#111] mb-1">{service.name}</div>
-                <div className="text-sm text-[#666] font-light">{service.count}</div>
+                <div className="text-sm text-[#E2711D] font-medium">{service.count}</div>
               </Link>
             ))}
           </div>
@@ -278,7 +278,7 @@ export default function Home() {
 
           <div className="grid md:grid-cols-3 gap-8 relative">
             {/* Connecting line */}
-            <div className="hidden md:block absolute top-1/4 left-0 right-0 h-0.5 bg-gradient-to-r from-[#4CAF50] via-[#4CAF50] to-[#4CAF50] opacity-20" />
+            <div className="hidden md:block absolute top-1/4 left-0 right-0 h-0.5 bg-gradient-to-r from-[#E2711D] via-[#2C5F3F] to-[#E2711D] opacity-20" />
 
             {[
               {
@@ -312,14 +312,14 @@ export default function Home() {
                 )
               },
             ].map((step, i) => (
-              <div key={i} className="relative bg-white p-8 rounded-3xl border border-gray-100 hover:border-[#4CAF50]/30 hover:shadow-xl transition-all duration-300 group">
+              <div key={i} className="relative bg-white p-8 rounded-3xl border border-gray-100 hover:border-[#2C5F3F]/30 hover:shadow-xl transition-all duration-300 group">
                 {/* Number badge */}
-                <div className="absolute -top-4 left-8 w-16 h-16 bg-[#4CAF50] rounded-2xl flex items-center justify-center text-white font-medium text-xl shadow-lg group-hover:scale-110 transition-transform">
+                <div className="absolute -top-4 left-8 w-16 h-16 bg-[#E2711D] rounded-2xl flex items-center justify-center text-white font-medium text-xl shadow-lg group-hover:scale-110 transition-transform">
                   {step.number}
                 </div>
 
                 {/* Icon */}
-                <div className="w-14 h-14 bg-[#4CAF50]/10 rounded-xl flex items-center justify-center text-[#4CAF50] mb-6 mt-8 group-hover:bg-[#4CAF50] group-hover:text-white transition-all">
+                <div className="w-14 h-14 bg-[#2C5F3F]/10 rounded-xl flex items-center justify-center text-[#2C5F3F] mb-6 mt-8 group-hover:bg-[#2C5F3F] group-hover:text-white transition-all">
                   {step.icon}
                 </div>
 
@@ -333,7 +333,7 @@ export default function Home() {
       </section>
 
       {/* ================= POURQUOI NOUS CHOISIR ================= */}
-      <section className="py-24 px-4 sm:px-6 lg:px-8 bg-[#F8F7F4]">
+      <section className="py-24 px-4 sm:px-6 lg:px-8 bg-[#F4F0EB]">
         <div className="max-w-7xl mx-auto">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             
@@ -341,7 +341,7 @@ export default function Home() {
             <div className="relative">
               <div className="relative h-[500px] rounded-3xl overflow-hidden shadow-2xl">
                 <Image
-                  src="/images/chantier.jpg"
+                  src="/images/Réno 2.jpg"
                   alt="Professionnels de la rénovation"
                   fill
                   className="object-cover"
@@ -349,7 +349,7 @@ export default function Home() {
               </div>
               {/* Stats overlay */}
               <div className="absolute -bottom-6 -right-6 bg-white p-8 rounded-2xl shadow-xl">
-                <div className="text-5xl font-light text-[#4CAF50] mb-2">2,500+</div>
+                <div className="text-5xl font-light text-[#E2711D] mb-2">2,500+</div>
                 <div className="text-[#666] font-light">Professionnels vérifiés</div>
               </div>
             </div>
@@ -395,7 +395,7 @@ export default function Home() {
                   },
                 ].map((feature, i) => (
                   <div key={i} className="flex gap-4 items-start">
-                    <div className="w-12 h-12 bg-[#4CAF50]/10 rounded-xl flex items-center justify-center text-[#4CAF50] flex-shrink-0">
+                    <div className="w-12 h-12 bg-[#2C5F3F]/10 rounded-xl flex items-center justify-center text-[#2C5F3F] flex-shrink-0">
                       {feature.icon}
                     </div>
                     <div>
@@ -423,7 +423,7 @@ export default function Home() {
               {
                 name: "Sophie Martin",
                 role: "Rénovation appartement",
-                location: "Paris 11ème",
+                location: "Montréal, Plateau-Mont-Royal",
                 rating: 5,
                 text: "Service impeccable ! J'ai trouvé un architecte d'intérieur génial en quelques jours. La rénovation de mon appartement s'est déroulée sans accroc.",
                 avatar: "SM"
@@ -431,7 +431,7 @@ export default function Home() {
               {
                 name: "Thomas Dubois",
                 role: "Extension maison",
-                location: "Lyon",
+                location: "Laval",
                 rating: 5,
                 text: "Excellent suivi du projet. L'entrepreneur général recommandé était très professionnel. Je recommande vivement cette plateforme.",
                 avatar: "TD"
@@ -439,17 +439,17 @@ export default function Home() {
               {
                 name: "Julie Renard",
                 role: "Création jardin",
-                location: "Bordeaux",
+                location: "Québec",
                 rating: 5,
                 text: "Le paysagiste trouvé via Les Bons Bras a transformé notre jardin. Résultat au-delà de nos attentes !",
                 avatar: "JR"
               },
             ].map((testimonial, i) => (
-              <div key={i} className="bg-white p-8 rounded-3xl border border-gray-100 hover:border-[#4CAF50]/30 hover:shadow-xl transition-all duration-300">
+              <div key={i} className="bg-white p-8 rounded-3xl border border-gray-100 hover:border-[#2C5F3F]/30 hover:shadow-xl transition-all duration-300">
                 {/* Stars */}
                 <div className="flex gap-1 mb-4">
                   {[...Array(testimonial.rating)].map((_, i) => (
-                    <svg key={i} className="w-5 h-5 text-[#4CAF50]" fill="currentColor" viewBox="0 0 20 20">
+                    <svg key={i} className="w-5 h-5 text-[#E2711D]" fill="currentColor" viewBox="0 0 20 20">
                       <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                     </svg>
                   ))}
@@ -462,7 +462,7 @@ export default function Home() {
 
                 {/* Author */}
                 <div className="flex items-center gap-3 pt-6 border-t border-gray-100">
-                  <div className="w-12 h-12 bg-[#4CAF50]/10 rounded-full flex items-center justify-center text-[#4CAF50] font-medium">
+                  <div className="w-12 h-12 bg-[#2C5F3F]/10 rounded-full flex items-center justify-center text-[#2C5F3F] font-medium">
                     {testimonial.avatar}
                   </div>
                   <div>
@@ -477,7 +477,7 @@ export default function Home() {
       </section>
 
       {/* ================= CTA FINAL ================= */}
-      <section id="contact" className="py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-[#4CAF50] to-[#45a049] text-white relative overflow-hidden">
+      <section id="contact" className="py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-[#2C5F3F] to-[#234B32] text-white relative overflow-hidden">
         {/* Background pattern */}
         <div className="absolute inset-0 opacity-10">
           <div className="absolute top-0 left-0 w-96 h-96 bg-white rounded-full blur-3xl" />
@@ -534,7 +534,7 @@ export default function Home() {
 
             <button
               type="submit"
-              className="w-full md:w-auto px-12 py-4 bg-white text-[#4CAF50] rounded-full font-medium hover:bg-gray-100 transition-all shadow-xl hover:shadow-2xl hover:scale-105 inline-flex items-center justify-center gap-2"
+              className="w-full md:w-auto px-12 py-4 bg-white text-[#2C5F3F] rounded-full font-medium hover:bg-gray-100 transition-all shadow-xl hover:shadow-2xl hover:scale-105 inline-flex items-center justify-center gap-2"
             >
               Recevoir des recommandations
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -556,7 +556,7 @@ export default function Home() {
             {/* Brand */}
             <div className="md:col-span-1">
               <div className="flex items-center gap-2 mb-6">
-                <span className="text-3xl text-[#4CAF50] font-bold">*</span>
+                <span className="text-3xl text-[#2C5F3F] font-bold">*</span>
                 <span className="text-xl font-light">Les Bons Bras</span>
               </div>
               <p className="text-gray-400 font-light text-sm leading-relaxed">
@@ -565,7 +565,7 @@ export default function Home() {
               {/* Social */}
               <div className="flex gap-4 mt-6">
                 {['facebook', 'instagram', 'linkedin'].map((social) => (
-                  <a key={social} href="#" className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-[#4CAF50] transition-all">
+                  <a key={social} href="#" className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-[#2C5F3F] transition-all">
                     <span className="sr-only">{social}</span>
                     <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                       <path d="M12 2C6.477 2 2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.879V14.89h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.989C18.343 21.129 22 16.99 22 12c0-5.523-4.477-10-10-10z" />
@@ -608,8 +608,8 @@ export default function Home() {
               <h4 className="font-medium mb-6">Contact</h4>
               <ul className="space-y-3 text-sm text-gray-400 font-light">
                 <li>contact@lesbonsbras.com</li>
-                <li>+33 1 23 45 67 89</li>
-                <li>Paris, France</li>
+                <li>+1 514 123-4567</li>
+                <li>Montréal, Québec</li>
               </ul>
               <div className="mt-6">
                 <h4 className="font-medium mb-3">Légal</h4>
@@ -634,8 +634,8 @@ export default function Home() {
               </p>
               <div className="flex items-center gap-2 text-sm text-gray-400 font-light">
                 <span>Fait avec</span>
-                <span className="text-[#4CAF50]">*</span>
-                <span>à Paris</span>
+                <span className="text-[#E2711D]">*</span>
+                <span>au Québec</span>
               </div>
             </div>
           </div>

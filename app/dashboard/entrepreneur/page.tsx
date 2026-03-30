@@ -28,7 +28,7 @@ function formatDate(s: string) {
 
 function statusConfig(s: ProjectStatus) {
   return {
-    en_cours: { label: "En cours", color: "#4CAF50", bg: "rgba(76,175,80,0.1)" },
+    en_cours: { label: "En cours", color: "#2C5F3F", bg: "rgba(76,175,80,0.1)" },
     planifie: { label: "Planifié", color: "#6366F1", bg: "rgba(99,102,241,0.1)" },
     termine: { label: "Terminé", color: "#10B981", bg: "rgba(16,185,129,0.1)" },
     en_pause: { label: "En pause", color: "#F59E0B", bg: "rgba(245,158,11,0.1)" },
@@ -39,7 +39,7 @@ function ProgressBar({ value, height = "h-2" }: { value: number; height?: string
   return (
     <div className={`w-full ${height} rounded-full overflow-hidden bg-gray-100`}>
       <motion.div
-        className="h-full rounded-full bg-gradient-to-r from-[#4CAF50] to-[#81C784]"
+        className="h-full rounded-full bg-gradient-to-r from-[#2C5F3F] to-[#81C784]"
         initial={{ width: 0 }}
         animate={{ width: `${value}%` }}
         transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
@@ -50,10 +50,10 @@ function ProgressBar({ value, height = "h-2" }: { value: number; height?: string
 
 function LoadingScreen() {
   return (
-    <main className="min-h-screen bg-[#F8F7F4] flex items-center justify-center">
+    <main className="min-h-screen bg-[#F4F0EB] flex items-center justify-center">
       <motion.div className="text-center" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
         <motion.div
-          className="w-12 h-12 border-3 border-[#4CAF50]/20 border-t-[#4CAF50] rounded-full mx-auto mb-6"
+          className="w-12 h-12 border-3 border-[#2C5F3F]/20 border-t-[#2C5F3F] rounded-full mx-auto mb-6"
           animate={{ rotate: 360 }}
           transition={{ duration: 0.8, repeat: Infinity, ease: "linear" }}
         />
@@ -76,7 +76,7 @@ function RequestCard({
 }) {
   return (
     <motion.div
-      className="bg-white p-6 rounded-2xl border border-[#4CAF50]/20 shadow-md"
+      className="bg-white p-6 rounded-2xl border border-[#2C5F3F]/20 shadow-md"
       initial={{ opacity: 0, y: 12 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4 }}
@@ -93,27 +93,27 @@ function RequestCard({
 
       <div className="flex flex-wrap gap-4 text-sm text-[#666] font-light mb-5">
         <span className="flex items-center gap-1.5">
-          <svg className="w-4 h-4 text-[#4CAF50]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg className="w-4 h-4 text-[#2C5F3F]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
           </svg>
           {request.client.full_name}
         </span>
         <span className="flex items-center gap-1.5">
-          <svg className="w-4 h-4 text-[#4CAF50]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg className="w-4 h-4 text-[#2C5F3F]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8V7m0 10v1" />
           </svg>
           Budget : {formatCurrency(Number(request.project.budget))}
         </span>
         {request.project.address && (
           <span className="flex items-center gap-1.5">
-            <svg className="w-4 h-4 text-[#4CAF50]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="w-4 h-4 text-[#2C5F3F]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
             </svg>
             {request.project.address}
           </span>
         )}
         <span className="flex items-center gap-1.5">
-          <svg className="w-4 h-4 text-[#4CAF50]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg className="w-4 h-4 text-[#2C5F3F]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <rect x="3" y="4" width="18" height="18" rx="2" strokeWidth={2} />
             <path d="M16 2v4M8 2v4M3 10h18" strokeWidth={2} strokeLinecap="round" />
           </svg>
@@ -122,7 +122,7 @@ function RequestCard({
       </div>
 
       {request.message && (
-        <div className="bg-[#F8F7F4] p-4 rounded-xl mb-5">
+        <div className="bg-[#F4F0EB] p-4 rounded-xl mb-5">
           <p className="text-sm text-[#666] font-light italic">&ldquo;{request.message}&rdquo;</p>
         </div>
       )}
@@ -131,7 +131,7 @@ function RequestCard({
         <button
           onClick={() => onRespond(request.id, request.project_id, true)}
           disabled={responding}
-          className="flex-1 py-3 rounded-full bg-[#4CAF50] text-white text-sm font-medium hover:bg-[#45a049] shadow-lg transition-all disabled:opacity-50"
+          className="flex-1 py-3 rounded-full bg-[#2C5F3F] text-white text-sm font-medium hover:bg-[#234B32] shadow-lg transition-all disabled:opacity-50"
         >
           ✓ Accepter
         </button>
@@ -196,22 +196,22 @@ export default function EntrepreneurDashboardPage() {
     : 0;
 
   return (
-    <main className="min-h-screen bg-[#F8F7F4] text-[#111]">
+    <main className="min-h-screen bg-[#F4F0EB] text-[#111]">
       {/* Navbar */}
       <nav className="fixed top-0 w-full bg-white/95 backdrop-blur-md border-b border-gray-100 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-20">
             <Link href="/" className="flex items-center gap-2">
-              <span className="text-3xl text-[#4CAF50] font-bold">*</span>
+              <span className="text-3xl text-[#2C5F3F] font-bold">*</span>
               <span className="text-xl font-light tracking-tight">Les Bons Bras</span>
             </Link>
             <div className="hidden md:flex items-center gap-6">
-              <div className="flex items-center gap-3 bg-[#F8F7F4] pl-4 pr-2 py-1.5 rounded-full">
+              <div className="flex items-center gap-3 bg-[#F4F0EB] pl-4 pr-2 py-1.5 rounded-full">
                 <div className="text-right">
                   <p className="text-sm font-medium text-[#111] leading-tight">{displayName}</p>
                   <p className="text-xs text-[#999] font-light">Espace pro</p>
                 </div>
-                <div className="w-9 h-9 rounded-full bg-[#4CAF50] flex items-center justify-center text-white text-sm font-medium">
+                <div className="w-9 h-9 rounded-full bg-[#2C5F3F] flex items-center justify-center text-white text-sm font-medium">
                   {displayName.charAt(0)}
                 </div>
               </div>
@@ -232,7 +232,7 @@ export default function EntrepreneurDashboardPage() {
               <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} exit={{ opacity: 0, height: 0 }} className="md:hidden border-t border-gray-100 pb-4">
                 <div className="pt-4 space-y-3">
                   <div className="flex items-center gap-3 mb-4">
-                    <div className="w-10 h-10 rounded-full bg-[#4CAF50] flex items-center justify-center text-white font-medium">{displayName.charAt(0)}</div>
+                    <div className="w-10 h-10 rounded-full bg-[#2C5F3F] flex items-center justify-center text-white font-medium">{displayName.charAt(0)}</div>
                     <div>
                       <p className="text-sm font-medium">{displayName}</p>
                       <p className="text-xs text-[#999] font-light">{companyName}</p>
@@ -251,7 +251,7 @@ export default function EntrepreneurDashboardPage() {
         {/* Welcome */}
         <motion.div className="mb-10" initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
           <h1 className="text-4xl md:text-5xl font-light tracking-tight mb-2">
-            Bonjour, <span className="text-[#4CAF50]">{displayName.split(" ")[0]}</span>
+            Bonjour, <span className="text-[#2C5F3F]">{displayName.split(" ")[0]}</span>
           </h1>
           <p className="text-lg text-[#666] font-light">
             {companyName && <>{companyName} — </>}Gérez vos chantiers et demandes clients.
@@ -262,7 +262,7 @@ export default function EntrepreneurDashboardPage() {
         <motion.div className="grid grid-cols-2 lg:grid-cols-4 gap-5 mb-12" initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.1 }}>
           {[
             { label: "Demandes en attente", value: `${requests.length}`, icon: "M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9", color: "#F59E0B" },
-            { label: "Chantiers actifs", value: `${activeProjects.length}`, icon: "M13 10V3L4 14h7v7l9-11h-7z", color: "#4CAF50" },
+            { label: "Chantiers actifs", value: `${activeProjects.length}`, icon: "M13 10V3L4 14h7v7l9-11h-7z", color: "#2C5F3F" },
             { label: "Revenus totaux", value: formatCurrency(totalRevenue), icon: "M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8V7m0 10v1", color: "#6366F1" },
             { label: "Progression moy.", value: `${avgProgress}%`, icon: "M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z", color: "#0EA5E9" },
           ].map((stat, i) => (
@@ -309,8 +309,8 @@ export default function EntrepreneurDashboardPage() {
 
               {projects.length === 0 ? (
                 <div className="bg-white p-16 rounded-3xl border border-gray-100 text-center">
-                  <div className="w-20 h-20 bg-[#4CAF50]/10 rounded-2xl mx-auto mb-5 flex items-center justify-center">
-                    <svg className="w-10 h-10 text-[#4CAF50]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <div className="w-20 h-20 bg-[#2C5F3F]/10 rounded-2xl mx-auto mb-5 flex items-center justify-center">
+                    <svg className="w-10 h-10 text-[#2C5F3F]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
                     </svg>
                   </div>
@@ -339,7 +339,7 @@ export default function EntrepreneurDashboardPage() {
                         <div className="mb-5">
                           <div className="flex justify-between mb-2">
                             <span className="text-sm text-[#999] font-light">Progression</span>
-                            <span className="text-sm font-medium text-[#4CAF50]">{project.progress}%</span>
+                            <span className="text-sm font-medium text-[#2C5F3F]">{project.progress}%</span>
                           </div>
                           <ProgressBar value={project.progress} height="h-1.5" />
                         </div>
@@ -377,7 +377,7 @@ export default function EntrepreneurDashboardPage() {
                 <p className="text-sm text-[#666] font-light mb-1">Vérifié</p>
                 <p className="text-lg font-light">
                   {proProfile?.verified ? (
-                    <span className="text-[#4CAF50]">✓ Oui</span>
+                    <span className="text-[#2C5F3F]">✓ Oui</span>
                   ) : (
                     <span className="text-[#999]">En attente</span>
                   )}
@@ -388,10 +388,10 @@ export default function EntrepreneurDashboardPage() {
             {/* Edit profile link */}
             <Link
               href="/onboarding"
-              className="group flex items-center gap-4 bg-white p-5 rounded-2xl border border-gray-100 hover:border-[#4CAF50]/30 hover:shadow-lg transition-all duration-300 mt-4"
+              className="group flex items-center gap-4 bg-white p-5 rounded-2xl border border-gray-100 hover:border-[#2C5F3F]/30 hover:shadow-lg transition-all duration-300 mt-4"
             >
-              <div className="w-10 h-10 bg-[#4CAF50]/10 rounded-xl flex items-center justify-center flex-shrink-0">
-                <svg className="w-5 h-5 text-[#4CAF50]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div className="w-10 h-10 bg-[#2C5F3F]/10 rounded-xl flex items-center justify-center flex-shrink-0">
+                <svg className="w-5 h-5 text-[#2C5F3F]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                 </svg>
               </div>
@@ -399,7 +399,7 @@ export default function EntrepreneurDashboardPage() {
                 <p className="font-medium text-sm text-[#111]">Modifier mon profil</p>
                 <p className="text-xs text-[#999] font-light">Photos, bio, spécialités</p>
               </div>
-              <svg className="w-5 h-5 ml-auto text-[#ccc] group-hover:text-[#4CAF50] group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-5 h-5 ml-auto text-[#ccc] group-hover:text-[#2C5F3F] group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
               </svg>
             </Link>

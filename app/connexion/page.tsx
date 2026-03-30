@@ -133,7 +133,7 @@ export default function ConnexionPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-20">
             <Link href="/" className="flex items-center gap-2 group">
-              <span className="text-3xl text-[#4CAF50] font-bold">*</span>
+              <span className="text-3xl text-[#2C5F3F] font-bold">*</span>
               <span className="text-xl font-light tracking-tight">
                 Les Bons Bras
               </span>
@@ -166,7 +166,7 @@ export default function ConnexionPage() {
       {/* ─── CONTENU ─── */}
       <div className="min-h-screen flex pt-20">
         {/* ═══ COLONNE GAUCHE — VISUEL ═══ */}
-        <div className="hidden lg:flex lg:w-1/2 relative bg-gradient-to-br from-[#4CAF50] to-[#45a049] items-center justify-center overflow-hidden">
+        <div className="hidden lg:flex lg:w-1/2 relative bg-gradient-to-br from-[#2C5F3F] to-[#234B32] items-center justify-center overflow-hidden">
           {/* Background blobs */}
           <div className="absolute inset-0">
             <div className="absolute -top-40 -left-40 w-[500px] h-[500px] bg-white rounded-full blur-3xl opacity-10" />
@@ -242,7 +242,7 @@ export default function ConnexionPage() {
         </div>
 
         {/* ═══ COLONNE DROITE — FORMULAIRE ═══ */}
-        <div className="w-full lg:w-1/2 flex items-center justify-center px-6 py-16 bg-[#F8F7F4]">
+        <div className="w-full lg:w-1/2 flex items-center justify-center px-6 py-16 bg-[#F4F0EB]">
           <motion.div
             className="w-full max-w-[440px]"
             initial={{ opacity: 0, y: 20 }}
@@ -271,14 +271,14 @@ export default function ConnexionPage() {
                     <button
                       onClick={() => setRole("client")}
                       className="group w-full bg-white p-6 rounded-2xl text-left
-                                 border border-gray-100 hover:border-[#4CAF50]/30
+                                 border border-gray-100 hover:border-[#2C5F3F]/30
                                  hover:shadow-xl transition-all duration-300
                                  hover:-translate-y-1"
                     >
                       <div className="flex items-center gap-5">
-                        <div className="w-14 h-14 bg-[#4CAF50]/10 rounded-2xl flex items-center justify-center flex-shrink-0 group-hover:bg-[#4CAF50] transition-all">
+                        <div className="w-14 h-14 bg-[#2C5F3F]/10 rounded-2xl flex items-center justify-center flex-shrink-0 group-hover:bg-[#2C5F3F] transition-all">
                           <svg
-                            className="w-7 h-7 text-[#4CAF50] group-hover:text-white transition-colors"
+                            className="w-7 h-7 text-[#2C5F3F] group-hover:text-white transition-colors"
                             fill="none"
                             stroke="currentColor"
                             viewBox="0 0 24 24"
@@ -301,7 +301,7 @@ export default function ConnexionPage() {
                           </p>
                         </div>
                         <svg
-                          className="w-5 h-5 text-[#666] group-hover:text-[#4CAF50] group-hover:translate-x-1 transition-all"
+                          className="w-5 h-5 text-[#666] group-hover:text-[#2C5F3F] group-hover:translate-x-1 transition-all"
                           fill="none"
                           stroke="currentColor"
                           viewBox="0 0 24 24"
@@ -320,14 +320,14 @@ export default function ConnexionPage() {
                     <button
                       onClick={() => setRole("professionnel")}
                       className="group w-full bg-white p-6 rounded-2xl text-left
-                                 border border-gray-100 hover:border-[#4CAF50]/30
+                                 border border-gray-100 hover:border-[#2C5F3F]/30
                                  hover:shadow-xl transition-all duration-300
                                  hover:-translate-y-1"
                     >
                       <div className="flex items-center gap-5">
-                        <div className="w-14 h-14 bg-[#4CAF50]/10 rounded-2xl flex items-center justify-center flex-shrink-0 group-hover:bg-[#4CAF50] transition-all">
+                        <div className="w-14 h-14 bg-[#2C5F3F]/10 rounded-2xl flex items-center justify-center flex-shrink-0 group-hover:bg-[#2C5F3F] transition-all">
                           <svg
-                            className="w-7 h-7 text-[#4CAF50] group-hover:text-white transition-colors"
+                            className="w-7 h-7 text-[#2C5F3F] group-hover:text-white transition-colors"
                             fill="none"
                             stroke="currentColor"
                             viewBox="0 0 24 24"
@@ -356,7 +356,7 @@ export default function ConnexionPage() {
                           </p>
                         </div>
                         <svg
-                          className="w-5 h-5 text-[#666] group-hover:text-[#4CAF50] group-hover:translate-x-1 transition-all"
+                          className="w-5 h-5 text-[#666] group-hover:text-[#2C5F3F] group-hover:translate-x-1 transition-all"
                           fill="none"
                           stroke="currentColor"
                           viewBox="0 0 24 24"
@@ -374,7 +374,7 @@ export default function ConnexionPage() {
 
                   <p className="text-center text-sm text-[#666] font-light mt-8">
                     Pas encore inscrit ?{" "}
-                    <span className="text-[#4CAF50]">
+                    <span className="text-[#2C5F3F]">
                       Choisissez votre profil pour commencer
                     </span>
                   </p>
@@ -417,14 +417,14 @@ export default function ConnexionPage() {
 
                   {/* Header */}
                   <div className="flex items-center gap-3 mb-2">
-                    <div className="w-10 h-10 bg-[#4CAF50]/10 rounded-xl flex items-center justify-center">
+                    <div className="w-10 h-10 bg-[#2C5F3F]/10 rounded-xl flex items-center justify-center">
                       {role === "client" ? (
-                        <svg className="w-5 h-5 text-[#4CAF50]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg className="w-5 h-5 text-[#2C5F3F]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" />
                           <circle cx="12" cy="7" r="4" strokeWidth={1.5} />
                         </svg>
                       ) : (
-                        <svg className="w-5 h-5 text-[#4CAF50]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg className="w-5 h-5 text-[#2C5F3F]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <rect x="2" y="7" width="20" height="14" rx="2" strokeWidth={1.5} />
                           <path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2" strokeLinecap="round" strokeWidth={1.5} />
                         </svg>
@@ -432,7 +432,7 @@ export default function ConnexionPage() {
                     </div>
                     <h2 className="text-2xl font-light tracking-tight">
                       {authMode === "login" ? "Connexion" : "Inscription"}{" "}
-                      <span className="text-[#4CAF50]">
+                      <span className="text-[#2C5F3F]">
                         {role === "client" ? "Client" : "Pro"}
                       </span>
                     </h2>
@@ -455,7 +455,7 @@ export default function ConnexionPage() {
                         className={`flex-1 py-2.5 text-sm font-medium rounded-full transition-all duration-300
                           ${
                             authMode === mode
-                              ? "bg-[#4CAF50] text-white shadow-lg"
+                              ? "bg-[#2C5F3F] text-white shadow-lg"
                               : "text-[#666] hover:text-[#111]"
                           }`}
                       >
@@ -511,7 +511,7 @@ export default function ConnexionPage() {
                             required
                             className="w-full bg-white border border-gray-200 rounded-xl px-5 py-3.5
                                        text-[#111] placeholder:text-[#999] text-sm font-light
-                                       focus:outline-none focus:ring-2 focus:ring-[#4CAF50]
+                                       focus:outline-none focus:ring-2 focus:ring-[#2C5F3F]
                                        transition-all"
                           />
                         </motion.div>
@@ -540,7 +540,7 @@ export default function ConnexionPage() {
                               required
                               className="w-full bg-white border border-gray-200 rounded-xl px-5 py-3.5
                                          text-[#111] placeholder:text-[#999] text-sm font-light
-                                         focus:outline-none focus:ring-2 focus:ring-[#4CAF50]
+                                         focus:outline-none focus:ring-2 focus:ring-[#2C5F3F]
                                          transition-all"
                             />
                           </div>
@@ -556,7 +556,7 @@ export default function ConnexionPage() {
                               placeholder="1234-5678-90"
                               className="w-full bg-white border border-gray-200 rounded-xl px-5 py-3.5
                                          text-[#111] placeholder:text-[#999] text-sm font-light
-                                         focus:outline-none focus:ring-2 focus:ring-[#4CAF50]
+                                         focus:outline-none focus:ring-2 focus:ring-[#2C5F3F]
                                          transition-all"
                             />
                           </div>
@@ -577,7 +577,7 @@ export default function ConnexionPage() {
                         required
                         className="w-full bg-white border border-gray-200 rounded-xl px-5 py-3.5
                                    text-[#111] placeholder:text-[#999] text-sm font-light
-                                   focus:outline-none focus:ring-2 focus:ring-[#4CAF50]
+                                   focus:outline-none focus:ring-2 focus:ring-[#2C5F3F]
                                    transition-all"
                       />
                     </div>
@@ -601,7 +601,7 @@ export default function ConnexionPage() {
                             placeholder="(514) 555-1234"
                             className="w-full bg-white border border-gray-200 rounded-xl px-5 py-3.5
                                        text-[#111] placeholder:text-[#999] text-sm font-light
-                                       focus:outline-none focus:ring-2 focus:ring-[#4CAF50]
+                                       focus:outline-none focus:ring-2 focus:ring-[#2C5F3F]
                                        transition-all"
                           />
                         </motion.div>
@@ -623,7 +623,7 @@ export default function ConnexionPage() {
                           minLength={6}
                           className="w-full bg-white border border-gray-200 rounded-xl px-5 py-3.5 pr-12
                                      text-[#111] placeholder:text-[#999] text-sm font-light
-                                     focus:outline-none focus:ring-2 focus:ring-[#4CAF50]
+                                     focus:outline-none focus:ring-2 focus:ring-[#2C5F3F]
                                      transition-all"
                         />
                         <button
@@ -647,7 +647,7 @@ export default function ConnexionPage() {
                       {authMode === "login" && (
                         <Link
                           href="/mot-de-passe-oublie"
-                          className="block text-xs text-[#4CAF50] mt-2 text-right
+                          className="block text-xs text-[#2C5F3F] mt-2 text-right
                                      font-light hover:underline transition-colors"
                         >
                           Mot de passe oublié ?
@@ -674,7 +674,7 @@ export default function ConnexionPage() {
                       type="submit"
                       disabled={isLoading}
                       className="w-full py-4 rounded-full text-sm font-medium text-white
-                                 bg-[#4CAF50] hover:bg-[#45a049]
+                                 bg-[#E2711D] hover:bg-[#C85D16]
                                  shadow-lg hover:shadow-xl
                                  transition-all duration-300
                                  disabled:opacity-50 disabled:cursor-not-allowed

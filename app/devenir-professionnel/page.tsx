@@ -17,7 +17,7 @@ interface FormData {
   
   // Étape 3 - Informations business
   nomEntreprise: string;
-  siret: string;
+  neq: string;
   ville: string;
   codePostal: string;
   experience: string;
@@ -25,7 +25,7 @@ interface FormData {
   
   // Étape 4 - Documents
   assurance: File | null;
-  kbis: File | null;
+  rbq: File | null;
   certifications: File | null;
 }
 
@@ -39,13 +39,13 @@ export default function DevenirProfessionnel() {
     email: "",
     telephone: "",
     nomEntreprise: "",
-    siret: "",
+    neq: "",
     ville: "",
     codePostal: "",
     experience: "",
     description: "",
     assurance: null,
-    kbis: null,
+    rbq: null,
     certifications: null,
   });
 
@@ -85,11 +85,11 @@ export default function DevenirProfessionnel() {
   // Écran de confirmation
   if (isSubmitted) {
     return (
-      <div className="min-h-screen bg-[#F8F7F4] flex items-center justify-center px-4">
+      <div className="min-h-screen bg-[#F4F0EB] flex items-center justify-center px-4">
         <div className="max-w-2xl w-full">
           <div className="bg-white rounded-3xl p-8 md:p-12 shadow-xl text-center animate-scaleIn">
             {/* Success Icon */}
-            <div className="w-20 h-20 bg-[#4CAF50] rounded-full mx-auto flex items-center justify-center mb-6 animate-successPop">
+            <div className="w-20 h-20 bg-[#2C5F3F] rounded-full mx-auto flex items-center justify-center mb-6 animate-successPop">
               <svg className="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
               </svg>
@@ -105,15 +105,15 @@ export default function DevenirProfessionnel() {
 
             {/* Info cards */}
             <div className="grid md:grid-cols-3 gap-4 mb-8">
-              <div className="bg-[#F8F7F4] rounded-2xl p-6">
+              <div className="bg-[#F4F0EB] rounded-2xl p-6">
                 <div className="text-3xl mb-2">📧</div>
                 <div className="text-sm text-[#666] font-light">Email de confirmation envoyé</div>
               </div>
-              <div className="bg-[#F8F7F4] rounded-2xl p-6">
+              <div className="bg-[#F4F0EB] rounded-2xl p-6">
                 <div className="text-3xl mb-2">⏱️</div>
                 <div className="text-sm text-[#666] font-light">Réponse sous 48h</div>
               </div>
-              <div className="bg-[#F8F7F4] rounded-2xl p-6">
+              <div className="bg-[#F4F0EB] rounded-2xl p-6">
                 <div className="text-3xl mb-2">✅</div>
                 <div className="text-sm text-[#666] font-light">Profil en vérification</div>
               </div>
@@ -122,7 +122,7 @@ export default function DevenirProfessionnel() {
             {/* CTA Button */}
             <Link
               href="/"
-              className="inline-flex items-center gap-2 px-8 py-3 bg-[#4CAF50] text-white rounded-xl font-medium hover:bg-[#45a049] transition-all"
+              className="inline-flex items-center gap-2 px-8 py-3 bg-[#2C5F3F] text-white rounded-xl font-medium hover:bg-[#234B32] transition-all"
             >
               Retour à l'accueil
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -136,13 +136,13 @@ export default function DevenirProfessionnel() {
   }
 
   return (
-    <div className="min-h-screen bg-[#F8F7F4]">
+    <div className="min-h-screen bg-[#F4F0EB]">
       {/* Navigation */}
       <nav className="bg-white border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-20">
             <Link href="/" className="flex items-center gap-2">
-              <span className="text-3xl text-[#4CAF50] font-bold">*</span>
+              <span className="text-3xl text-[#2C5F3F] font-bold">*</span>
               <span className="text-xl font-light">Les Bons Bras</span>
             </Link>
             <Link href="/" className="text-[#666] hover:text-[#111] font-light text-sm">
@@ -165,7 +165,7 @@ export default function DevenirProfessionnel() {
           </div>
           <div className="w-full bg-gray-200 rounded-full h-2">
             <div
-              className="bg-[#4CAF50] h-2 rounded-full transition-all duration-500"
+              className="bg-[#E2711D] h-2 rounded-full transition-all duration-500"
               style={{ width: `${progress}%` }}
             />
           </div>
@@ -182,8 +182,8 @@ export default function DevenirProfessionnel() {
           {currentStep === 1 && (
             <div className="bg-white rounded-3xl p-8 md:p-12 shadow-sm space-y-8 animate-fadeIn">
               <div className="text-center space-y-4">
-                <div className="inline-flex items-center justify-center w-16 h-16 bg-[#4CAF50]/10 rounded-2xl mb-4">
-                  <svg className="w-8 h-8 text-[#4CAF50]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div className="inline-flex items-center justify-center w-16 h-16 bg-[#2C5F3F]/10 rounded-2xl mb-4">
+                  <svg className="w-8 h-8 text-[#2C5F3F]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                   </svg>
                 </div>
@@ -203,8 +203,8 @@ export default function DevenirProfessionnel() {
                     onClick={() => setFormData({ ...formData, metier: metier.id })}
                     className={`p-6 rounded-2xl border-2 transition-all duration-300 text-center ${
                       formData.metier === metier.id
-                        ? "border-[#4CAF50] bg-[#4CAF50]/5 shadow-lg"
-                        : "border-gray-200 hover:border-[#4CAF50]/50 hover:shadow-md"
+                        ? "border-[#2C5F3F] bg-[#2C5F3F]/5 shadow-lg"
+                        : "border-gray-200 hover:border-[#2C5F3F]/50 hover:shadow-md"
                     }`}
                   >
                     <div className="text-4xl mb-3">{metier.icon}</div>
@@ -219,8 +219,8 @@ export default function DevenirProfessionnel() {
           {currentStep === 2 && (
             <div className="bg-white rounded-3xl p-8 md:p-12 shadow-sm space-y-8 animate-fadeIn">
               <div className="text-center space-y-4">
-                <div className="inline-flex items-center justify-center w-16 h-16 bg-[#4CAF50]/10 rounded-2xl mb-4">
-                  <svg className="w-8 h-8 text-[#4CAF50]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div className="inline-flex items-center justify-center w-16 h-16 bg-[#2C5F3F]/10 rounded-2xl mb-4">
+                  <svg className="w-8 h-8 text-[#2C5F3F]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                   </svg>
                 </div>
@@ -242,7 +242,7 @@ export default function DevenirProfessionnel() {
                     required
                     value={formData.prenom}
                     onChange={(e) => setFormData({ ...formData, prenom: e.target.value })}
-                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-[#4CAF50] transition-all font-light"
+                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-[#2C5F3F] transition-all font-light"
                     placeholder="Jean"
                   />
                 </div>
@@ -256,7 +256,7 @@ export default function DevenirProfessionnel() {
                     required
                     value={formData.nom}
                     onChange={(e) => setFormData({ ...formData, nom: e.target.value })}
-                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-[#4CAF50] transition-all font-light"
+                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-[#2C5F3F] transition-all font-light"
                     placeholder="Dupont"
                   />
                 </div>
@@ -270,7 +270,7 @@ export default function DevenirProfessionnel() {
                     required
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-[#4CAF50] transition-all font-light"
+                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-[#2C5F3F] transition-all font-light"
                     placeholder="jean.dupont@email.com"
                   />
                 </div>
@@ -284,8 +284,8 @@ export default function DevenirProfessionnel() {
                     required
                     value={formData.telephone}
                     onChange={(e) => setFormData({ ...formData, telephone: e.target.value })}
-                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-[#4CAF50] transition-all font-light"
-                    placeholder="+33 6 12 34 56 78"
+                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-[#2C5F3F] transition-all font-light"
+                    placeholder="+1 438 987-6543"
                   />
                 </div>
               </div>
@@ -296,8 +296,8 @@ export default function DevenirProfessionnel() {
           {currentStep === 3 && (
             <div className="bg-white rounded-3xl p-8 md:p-12 shadow-sm space-y-8 animate-fadeIn">
               <div className="text-center space-y-4">
-                <div className="inline-flex items-center justify-center w-16 h-16 bg-[#4CAF50]/10 rounded-2xl mb-4">
-                  <svg className="w-8 h-8 text-[#4CAF50]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div className="inline-flex items-center justify-center w-16 h-16 bg-[#2C5F3F]/10 rounded-2xl mb-4">
+                  <svg className="w-8 h-8 text-[#2C5F3F]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
                   </svg>
                 </div>
@@ -319,22 +319,22 @@ export default function DevenirProfessionnel() {
                     required
                     value={formData.nomEntreprise}
                     onChange={(e) => setFormData({ ...formData, nomEntreprise: e.target.value })}
-                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-[#4CAF50] transition-all font-light"
+                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-[#2C5F3F] transition-all font-light"
                     placeholder="Dupont Rénovation"
                   />
                 </div>
 
                 <div>
                   <label className="block text-sm font-medium text-[#111] mb-2">
-                    SIRET *
+                    NEQ *
                   </label>
                   <input
                     type="text"
                     required
-                    value={formData.siret}
-                    onChange={(e) => setFormData({ ...formData, siret: e.target.value })}
-                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-[#4CAF50] transition-all font-light"
-                    placeholder="123 456 789 00010"
+                    value={formData.neq}
+                    onChange={(e) => setFormData({ ...formData, neq: e.target.value })}
+                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-[#2C5F3F] transition-all font-light"
+                    placeholder="1234567890"
                   />
                 </div>
 
@@ -346,7 +346,7 @@ export default function DevenirProfessionnel() {
                     required
                     value={formData.experience}
                     onChange={(e) => setFormData({ ...formData, experience: e.target.value })}
-                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-[#4CAF50] transition-all font-light"
+                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-[#2C5F3F] transition-all font-light"
                   >
                     <option value="">Sélectionnez</option>
                     <option value="0-2">0 à 2 ans</option>
@@ -366,8 +366,8 @@ export default function DevenirProfessionnel() {
                     required
                     value={formData.ville}
                     onChange={(e) => setFormData({ ...formData, ville: e.target.value })}
-                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-[#4CAF50] transition-all font-light"
-                    placeholder="Paris"
+                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-[#2C5F3F] transition-all font-light"
+                    placeholder="Montréal"
                   />
                 </div>
 
@@ -380,8 +380,8 @@ export default function DevenirProfessionnel() {
                     required
                     value={formData.codePostal}
                     onChange={(e) => setFormData({ ...formData, codePostal: e.target.value })}
-                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-[#4CAF50] transition-all font-light"
-                    placeholder="75001"
+                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-[#2C5F3F] transition-all font-light"
+                    placeholder="H2X 1Y4"
                   />
                 </div>
 
@@ -394,7 +394,7 @@ export default function DevenirProfessionnel() {
                     value={formData.description}
                     onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                     rows={5}
-                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-[#4CAF50] transition-all resize-none font-light"
+                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-[#2C5F3F] transition-all resize-none font-light"
                     placeholder="Décrivez votre expertise, vos spécialités, vos réalisations..."
                   />
                   <p className="text-sm text-[#666] mt-2 font-light">
@@ -409,8 +409,8 @@ export default function DevenirProfessionnel() {
           {currentStep === 4 && (
             <div className="bg-white rounded-3xl p-8 md:p-12 shadow-sm space-y-8 animate-fadeIn">
               <div className="text-center space-y-4">
-                <div className="inline-flex items-center justify-center w-16 h-16 bg-[#4CAF50]/10 rounded-2xl mb-4">
-                  <svg className="w-8 h-8 text-[#4CAF50]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div className="inline-flex items-center justify-center w-16 h-16 bg-[#2C5F3F]/10 rounded-2xl mb-4">
+                  <svg className="w-8 h-8 text-[#2C5F3F]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                   </svg>
                 </div>
@@ -424,16 +424,16 @@ export default function DevenirProfessionnel() {
 
               <div className="space-y-6 pt-8">
                 {/* Assurance */}
-                <div className="border-2 border-dashed border-gray-300 rounded-2xl p-6 hover:border-[#4CAF50] transition-all">
+                <div className="border-2 border-dashed border-gray-300 rounded-2xl p-6 hover:border-[#2C5F3F] transition-all">
                   <label className="block cursor-pointer">
                     <div className="flex items-center gap-4">
-                      <div className="w-12 h-12 bg-[#4CAF50]/10 rounded-xl flex items-center justify-center flex-shrink-0">
-                        <svg className="w-6 h-6 text-[#4CAF50]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <div className="w-12 h-12 bg-[#2C5F3F]/10 rounded-xl flex items-center justify-center flex-shrink-0">
+                        <svg className="w-6 h-6 text-[#2C5F3F]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
                         </svg>
                       </div>
                       <div className="flex-1">
-                        <div className="font-medium text-[#111]">Assurance décennale *</div>
+                        <div className="font-medium text-[#111]">Assurance responsabilité civile *</div>
                         <div className="text-sm text-[#666] font-light">
                           {formData.assurance ? formData.assurance.name : "PDF, max 10 MB"}
                         </div>
@@ -451,19 +451,19 @@ export default function DevenirProfessionnel() {
                   </label>
                 </div>
 
-                {/* KBIS */}
-                <div className="border-2 border-dashed border-gray-300 rounded-2xl p-6 hover:border-[#4CAF50] transition-all">
+                {/* RBQ */}
+                <div className="border-2 border-dashed border-gray-300 rounded-2xl p-6 hover:border-[#2C5F3F] transition-all">
                   <label className="block cursor-pointer">
                     <div className="flex items-center gap-4">
-                      <div className="w-12 h-12 bg-[#4CAF50]/10 rounded-xl flex items-center justify-center flex-shrink-0">
-                        <svg className="w-6 h-6 text-[#4CAF50]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <div className="w-12 h-12 bg-[#2C5F3F]/10 rounded-xl flex items-center justify-center flex-shrink-0">
+                        <svg className="w-6 h-6 text-[#2C5F3F]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                         </svg>
                       </div>
                       <div className="flex-1">
-                        <div className="font-medium text-[#111]">Extrait KBIS *</div>
+                        <div className="font-medium text-[#111]">Immatriculation RBQ *</div>
                         <div className="text-sm text-[#666] font-light">
-                          {formData.kbis ? formData.kbis.name : "PDF, max 10 MB"}
+                          {formData.rbq ? formData.rbq.name : "PDF, max 10 MB"}
                         </div>
                       </div>
                       <svg className="w-6 h-6 text-[#666]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -474,17 +474,17 @@ export default function DevenirProfessionnel() {
                       type="file"
                       accept=".pdf"
                       className="hidden"
-                      onChange={(e) => handleFileChange("kbis", e.target.files?.[0] || null)}
+                      onChange={(e) => handleFileChange("rbq", e.target.files?.[0] || null)}
                     />
                   </label>
                 </div>
 
                 {/* Certifications */}
-                <div className="border-2 border-dashed border-gray-300 rounded-2xl p-6 hover:border-[#4CAF50] transition-all">
+                <div className="border-2 border-dashed border-gray-300 rounded-2xl p-6 hover:border-[#2C5F3F] transition-all">
                   <label className="block cursor-pointer">
                     <div className="flex items-center gap-4">
-                      <div className="w-12 h-12 bg-[#4CAF50]/10 rounded-xl flex items-center justify-center flex-shrink-0">
-                        <svg className="w-6 h-6 text-[#4CAF50]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <div className="w-12 h-12 bg-[#2C5F3F]/10 rounded-xl flex items-center justify-center flex-shrink-0">
+                        <svg className="w-6 h-6 text-[#2C5F3F]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
                         </svg>
                       </div>
@@ -543,7 +543,7 @@ export default function DevenirProfessionnel() {
                 type="button"
                 onClick={handleNext}
                 disabled={currentStep === 1 && !formData.metier}
-                className="px-8 py-3 bg-[#4CAF50] text-white rounded-xl font-medium hover:bg-[#45a049] transition-all disabled:opacity-50 disabled:cursor-not-allowed inline-flex items-center gap-2 ml-auto"
+                className="px-8 py-3 bg-[#E2711D] text-white rounded-xl font-medium hover:bg-[#C85D16] transition-all disabled:opacity-50 disabled:cursor-not-allowed inline-flex items-center gap-2 ml-auto"
               >
                 Continuer
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -553,7 +553,7 @@ export default function DevenirProfessionnel() {
             ) : (
               <button
                 type="submit"
-                className="px-8 py-3 bg-[#4CAF50] text-white rounded-xl font-medium hover:bg-[#45a049] transition-all inline-flex items-center gap-2 ml-auto shadow-lg hover:shadow-xl"
+                className="px-8 py-3 bg-[#E2711D] text-white rounded-xl font-medium hover:bg-[#C85D16] transition-all inline-flex items-center gap-2 ml-auto shadow-lg hover:shadow-xl"
               >
                 Soumettre ma candidature
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -569,7 +569,7 @@ export default function DevenirProfessionnel() {
           <p className="text-sm text-[#666] font-light mb-4">
             Une question ? Notre équipe est là pour vous aider
           </p>
-          <Link href="/contact" className="text-[#4CAF50] hover:underline font-medium text-sm">
+          <Link href="/contact" className="text-[#2C5F3F] hover:underline font-medium text-sm">
             Contactez-nous
           </Link>
         </div>

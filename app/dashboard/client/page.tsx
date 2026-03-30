@@ -45,7 +45,7 @@ function formatDateShort(s: string) {
 
 function statusConfig(s: ProjectStatus) {
   return {
-    en_cours: { label: "En cours", color: "#4CAF50", bg: "rgba(76,175,80,0.1)" },
+    en_cours: { label: "En cours", color: "#2C5F3F", bg: "rgba(76,175,80,0.1)" },
     planifie: { label: "Planifié", color: "#6366F1", bg: "rgba(99,102,241,0.1)" },
     termine: { label: "Terminé", color: "#10B981", bg: "rgba(16,185,129,0.1)" },
     en_pause: { label: "En pause", color: "#F59E0B", bg: "rgba(245,158,11,0.1)" },
@@ -55,7 +55,7 @@ function statusConfig(s: ProjectStatus) {
 function categoryConfig(c: CostCategory) {
   return {
     materiaux: { label: "Matériaux", color: "#6366F1", bg: "rgba(99,102,241,0.1)" },
-    main_oeuvre: { label: "Main d'œuvre", color: "#4CAF50", bg: "rgba(76,175,80,0.1)" },
+    main_oeuvre: { label: "Main d'œuvre", color: "#2C5F3F", bg: "rgba(76,175,80,0.1)" },
     permis: { label: "Permis", color: "#0EA5E9", bg: "rgba(14,165,233,0.1)" },
     autre: { label: "Autre", color: "#9CA3AF", bg: "rgba(156,163,175,0.1)" },
   }[c];
@@ -67,13 +67,29 @@ function daysUntil(dateStr: string | null) {
   return Math.ceil(diff / (1000 * 60 * 60 * 24));
 }
 
+function getProjectDuration(startDate?: string | null, endDate?: string | null): string {
+  if (!startDate) return 'Non demarree';
+  const start = new Date(startDate);
+  const end = endDate ? new Date(endDate) : new Date();
+  const weeks = Math.max(1, Math.ceil((end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24 * 7)));
+  return `${weeks} sem.`;
+}
+
+function getDurationLabel(status: ProjectStatus, startDate?: string | null, endDate?: string | null, actualEndDate?: string | null): string {
+  if (status === 'planifie') return 'Non demarree';
+  if (status === 'termine') {
+    return `${getProjectDuration(startDate, actualEndDate || endDate)} (termine)`;
+  }
+  return `${getProjectDuration(startDate)} en cours`;
+}
+
 /* ─────────────────────────── SUB-COMPONENTS ─────────────────────────── */
 
 function ProgressBar({ value, height = "h-2" }: { value: number; height?: string }) {
   return (
     <div className={`w-full ${height} rounded-full overflow-hidden bg-gray-100`}>
       <motion.div
-        className="h-full rounded-full bg-gradient-to-r from-[#4CAF50] to-[#81C784]"
+        className="h-full rounded-full bg-gradient-to-r from-[#2C5F3F] to-[#81C784]"
         initial={{ width: 0 }}
         animate={{ width: `${value}%` }}
         transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
@@ -84,10 +100,10 @@ function ProgressBar({ value, height = "h-2" }: { value: number; height?: string
 
 function LoadingScreen() {
   return (
-    <main className="min-h-screen bg-[#F8F7F4] flex items-center justify-center">
+    <main className="min-h-screen bg-[#F4F0EB] flex items-center justify-center">
       <motion.div className="text-center" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
         <motion.div
-          className="w-12 h-12 border-3 border-[#4CAF50]/20 border-t-[#4CAF50] rounded-full mx-auto mb-6"
+          className="w-12 h-12 border-3 border-[#2C5F3F]/20 border-t-[#2C5F3F] rounded-full mx-auto mb-6"
           animate={{ rotate: 360 }}
           transition={{ duration: 0.8, repeat: Infinity, ease: "linear" }}
         />
@@ -115,16 +131,12 @@ function ProjectDetailView({
 
   const sc = statusConfig(p.status);
   const budgetPct = p.budget > 0 ? Math.round((p.spent / p.budget) * 100) : 0;
-  const startDate = p.start_date || p.created_at;
-  const endDate = p.estimated_end_date || p.created_at;
-  const weeks = Math.ceil(
-    (new Date(endDate).getTime() - new Date(startDate).getTime()) / (1000 * 60 * 60 * 24 * 7)
-  );
+  const durationLabel = getDurationLabel(p.status, p.start_date, p.estimated_end_date);
   const donePhases = p.phases.filter((ph) => ph.status === "done").length;
   const remaining = daysUntil(p.estimated_end_date);
 
   return (
-    <main className="min-h-screen bg-[#F8F7F4] text-[#111]">
+    <main className="min-h-screen bg-[#F4F0EB] text-[#111]">
       {/* Navbar */}
       <nav className="sticky top-0 w-full bg-white/95 backdrop-blur-md border-b border-gray-100 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -158,7 +170,7 @@ function ProjectDetailView({
           <div className="flex flex-wrap gap-x-6 gap-y-2 text-sm text-[#666] font-light">
             {p.address && (
               <span className="flex items-center gap-2">
-                <svg className="w-4 h-4 text-[#4CAF50]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-4 h-4 text-[#2C5F3F]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                 </svg>
@@ -166,15 +178,15 @@ function ProjectDetailView({
               </span>
             )}
             <span className="flex items-center gap-2">
-              <svg className="w-4 h-4 text-[#4CAF50]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-4 h-4 text-[#2C5F3F]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <rect x="3" y="4" width="18" height="18" rx="2" strokeWidth={2} />
                 <path d="M16 2v4M8 2v4M3 10h18" strokeWidth={2} strokeLinecap="round" />
               </svg>
-              {formatDate(startDate)} → {formatDate(endDate)}
+              {p.start_date ? formatDate(p.start_date) : 'A definir'} → {p.estimated_end_date ? formatDate(p.estimated_end_date) : 'A definir'}
             </span>
             {p.pro && (
               <span className="flex items-center gap-2">
-                <svg className="w-4 h-4 text-[#4CAF50]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-4 h-4 text-[#2C5F3F]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                 </svg>
                 {p.pro.full_name} — {p.pro.company_name}
@@ -190,7 +202,7 @@ function ProjectDetailView({
         >
           <div className="flex items-center justify-between mb-4">
             <span className="text-lg font-light text-[#111]">Progression globale</span>
-            <span className="text-3xl font-light text-[#4CAF50]">{p.progress}%</span>
+            <span className="text-3xl font-light text-[#2C5F3F]">{p.progress}%</span>
           </div>
           <ProgressBar value={p.progress} height="h-3" />
           <div className="flex justify-between mt-4 text-sm text-[#666] font-light">
@@ -208,7 +220,7 @@ function ProjectDetailView({
                 key={tab}
                 onClick={() => setActiveTab(tab)}
                 className={`flex-1 py-3 text-sm font-medium rounded-full transition-all duration-300 ${
-                  activeTab === tab ? "bg-[#4CAF50] text-white shadow-lg" : "text-[#666] hover:text-[#111]"
+                  activeTab === tab ? "bg-[#2C5F3F] text-white shadow-lg" : "text-[#666] hover:text-[#111]"
                 }`}
               >
                 {labels[tab]}
@@ -224,8 +236,8 @@ function ProjectDetailView({
             <motion.div key="apercu" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -12 }} transition={{ duration: 0.3 }}>
               <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
                 {[
-                  { label: "Budget", value: formatCurrency(p.budget), sub: `${formatCurrency(p.budget - p.spent)} restant`, color: "#4CAF50" },
-                  { label: "Durée", value: `${weeks} sem.`, sub: remaining > 0 ? `${remaining} jours restants` : "Terminé", color: "#6366F1" },
+                  { label: "Budget", value: formatCurrency(p.budget), sub: `${formatCurrency(p.budget - p.spent)} restant`, color: "#2C5F3F" },
+                  { label: "Durée", value: durationLabel.split(' (')[0], sub: remaining > 0 ? `${remaining} jours restants` : (p.status === 'planifie' ? 'Non demarree' : 'Termine'), color: "#6366F1" },
                   { label: "Phases", value: `${donePhases}/${p.phases.length}`, sub: "complétées", color: "#10B981" },
                   { label: "Photos", value: `${p.photos.length}`, sub: "du chantier", color: "#0EA5E9" },
                 ].map((stat, i) => (
@@ -254,35 +266,39 @@ function ProjectDetailView({
           {activeTab === "phases" && (
             <motion.div key="phases" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -12 }} transition={{ duration: 0.3 }} className="bg-white rounded-3xl border border-gray-100 p-8">
               {p.phases.length === 0 ? (
-                <p className="text-[#999] font-light text-center py-8">Aucune phase définie pour l&apos;instant.</p>
+                <div className="text-center py-12">
+                  <div className="text-4xl mb-4">📋</div>
+                  <h3 className="text-lg font-medium text-[#111] mb-2">Aucune phase definie</h3>
+                  <p className="text-sm text-[#999] font-light">Ajoutez des phases pour suivre l'avancement de votre projet etape par etape.</p>
+                </div>
               ) : (
                 p.phases.map((phase, i) => (
                   <div key={phase.id} className="flex gap-5">
                     <div className="flex flex-col items-center">
                       {phase.status === "done" ? (
-                        <div className="w-10 h-10 rounded-full bg-[#4CAF50]/10 flex items-center justify-center">
-                          <svg className="w-5 h-5 text-[#4CAF50]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <div className="w-10 h-10 rounded-full bg-[#2C5F3F]/10 flex items-center justify-center">
+                          <svg className="w-5 h-5 text-[#2C5F3F]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
                           </svg>
                         </div>
                       ) : phase.status === "in_progress" ? (
-                        <div className="w-10 h-10 rounded-full bg-[#4CAF50]/10 flex items-center justify-center">
-                          <motion.div className="w-3.5 h-3.5 rounded-full bg-[#4CAF50]" animate={{ scale: [1, 1.4, 1] }} transition={{ duration: 1.5, repeat: Infinity }} />
+                        <div className="w-10 h-10 rounded-full bg-[#2C5F3F]/10 flex items-center justify-center">
+                          <motion.div className="w-3.5 h-3.5 rounded-full bg-[#2C5F3F]" animate={{ scale: [1, 1.4, 1] }} transition={{ duration: 1.5, repeat: Infinity }} />
                         </div>
                       ) : (
-                        <div className="w-10 h-10 rounded-full border-2 border-gray-200 flex items-center justify-center bg-[#F8F7F4]">
+                        <div className="w-10 h-10 rounded-full border-2 border-gray-200 flex items-center justify-center bg-[#F4F0EB]">
                           <div className="w-2.5 h-2.5 rounded-full bg-gray-300" />
                         </div>
                       )}
                       {i < p.phases.length - 1 && (
-                        <div className={`w-0.5 flex-1 my-1.5 ${phase.status === "done" ? "bg-[#4CAF50]/40" : "bg-gray-200"}`} />
+                        <div className={`w-0.5 flex-1 my-1.5 ${phase.status === "done" ? "bg-[#2C5F3F]/40" : "bg-gray-200"}`} />
                       )}
                     </div>
                     <div className="flex-1 pb-8 pt-2">
                       <div className="flex items-center justify-between">
                         <p className={`font-medium ${phase.status === "pending" ? "text-[#999]" : "text-[#111]"}`}>{phase.name}</p>
                         {phase.status === "in_progress" && (
-                          <span className="text-xs px-2.5 py-1 rounded-full bg-[#4CAF50]/10 text-[#4CAF50] font-medium">En cours</span>
+                          <span className="text-xs px-2.5 py-1 rounded-full bg-[#2C5F3F]/10 text-[#2C5F3F] font-medium">En cours</span>
                         )}
                       </div>
                       <p className="text-sm text-[#999] font-light mt-1">
@@ -301,13 +317,13 @@ function ProjectDetailView({
             <motion.div key="photos" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -12 }} transition={{ duration: 0.3 }}>
               {p.photos.length === 0 ? (
                 <div className="bg-white rounded-3xl border border-gray-100 p-16 text-center">
-                  <div className="w-20 h-20 bg-[#F8F7F4] rounded-2xl mx-auto mb-5 flex items-center justify-center">
+                  <div className="w-20 h-20 bg-[#F4F0EB] rounded-2xl mx-auto mb-5 flex items-center justify-center">
                     <svg className="w-10 h-10 text-[#ccc]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                     </svg>
                   </div>
-                  <p className="text-[#666] font-light">Aucune photo pour l&apos;instant.</p>
-                  <p className="text-sm text-[#999] font-light mt-1">Les photos seront ajoutées au fur et à mesure du chantier.</p>
+                  <p className="text-[#666] font-light text-lg mb-2">Aucune photo de chantier</p>
+                  <p className="text-sm text-[#999] font-light">Documentez l'avancement avec des photos avant/pendant/apres.</p>
                 </div>
               ) : (
                 <div className="grid grid-cols-2 md:grid-cols-3 gap-5">
@@ -316,7 +332,7 @@ function ProjectDetailView({
                       {photo.url ? (
                         <img src={photo.url} alt={photo.caption || ""} className="aspect-[4/3] w-full object-cover" />
                       ) : (
-                        <div className="aspect-[4/3] bg-[#F8F7F4] flex items-center justify-center">
+                        <div className="aspect-[4/3] bg-[#F4F0EB] flex items-center justify-center">
                           <svg className="w-10 h-10 text-[#ccc]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                           </svg>
@@ -326,7 +342,7 @@ function ProjectDetailView({
                         <p className="font-medium text-sm text-[#111]">{photo.caption}</p>
                         <div className="flex items-center justify-between mt-2">
                           <span className="text-xs text-[#999] font-light">{formatDate(photo.created_at)}</span>
-                          {photo.phase && <span className="text-xs px-2.5 py-0.5 rounded-full bg-[#4CAF50]/10 text-[#4CAF50]">{photo.phase}</span>}
+                          {photo.phase && <span className="text-xs px-2.5 py-0.5 rounded-full bg-[#2C5F3F]/10 text-[#2C5F3F]">{photo.phase}</span>}
                         </div>
                       </div>
                     </div>
@@ -347,7 +363,7 @@ function ProjectDetailView({
                 <ProgressBar value={budgetPct} height="h-2" />
                 <div className="flex justify-between mt-3">
                   <p className="text-xs text-[#999] font-light">{budgetPct}% utilisé</p>
-                  <p className="text-xs font-light" style={{ color: budgetPct > 80 ? "#EF4444" : "#4CAF50" }}>{formatCurrency(p.budget - p.spent)} restant</p>
+                  <p className="text-xs font-light" style={{ color: budgetPct > 80 ? "#EF4444" : "#2C5F3F" }}>{formatCurrency(p.budget - p.spent)} restant</p>
                 </div>
               </div>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
@@ -364,7 +380,11 @@ function ProjectDetailView({
                 })}
               </div>
               {p.costs.length === 0 ? (
-                <p className="text-[#999] font-light text-center py-8">Aucune dépense enregistrée.</p>
+                <div className="text-center py-12">
+                  <div className="text-4xl mb-4">💰</div>
+                  <h3 className="text-lg font-medium text-[#111] mb-2">Aucune depense enregistree</h3>
+                  <p className="text-sm text-[#999] font-light">Suivez votre budget en ajoutant vos depenses au fur et a mesure.</p>
+                </div>
               ) : (
                 <div className="space-y-3">
                   {p.costs.map((cost) => {
@@ -381,7 +401,7 @@ function ProjectDetailView({
                         </div>
                         <div className="text-right">
                           <p className="font-medium text-[#111]">{formatCurrency(Number(cost.amount))}</p>
-                          <span className={`text-xs font-light ${cost.paid ? "text-[#4CAF50]" : "text-[#F59E0B]"}`}>{cost.paid ? "✓ Payé" : "En attente"}</span>
+                          <span className={`text-xs font-light ${cost.paid ? "text-[#2C5F3F]" : "text-[#F59E0B]"}`}>{cost.paid ? "✓ Payé" : "En attente"}</span>
                         </div>
                       </div>
                     );
@@ -425,6 +445,7 @@ export default function ClientDashboardPage() {
   const totalBudget = projects.reduce((s, p) => s + Number(p.budget), 0);
   const totalSpent = projects.reduce((s, p) => s + Number(p.spent), 0);
   const activeCount = projects.filter((p) => p.status === "en_cours").length;
+  const planifiedCount = projects.filter((p) => p.status === "planifie").length;
   const avgProgress = projects.length
     ? Math.round(projects.reduce((s, p) => s + p.progress, 0) / projects.length)
     : 0;
@@ -439,24 +460,24 @@ export default function ClientDashboardPage() {
      ═══════════════════════════════════════════════════════════════ */
 
   return (
-    <main className="min-h-screen bg-[#F8F7F4] text-[#111]">
+    <main className="min-h-screen bg-[#F4F0EB] text-[#111]">
       {/* Navbar */}
       <nav className="fixed top-0 w-full bg-white/95 backdrop-blur-md border-b border-gray-100 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-20">
             <Link href="/" className="flex items-center gap-2 group">
-              <span className="text-3xl text-[#4CAF50] font-bold">*</span>
+              <span className="text-3xl text-[#2C5F3F] font-bold">*</span>
               <span className="text-xl font-light tracking-tight">Les Bons Bras</span>
             </Link>
             <div className="hidden md:flex items-center gap-6">
               <Link href="/chat-renovation" className="text-[#666] hover:text-[#111] font-light transition-colors text-sm">Assistant IA</Link>
               <Link href="/trouver-un-professionnel" className="text-[#666] hover:text-[#111] font-light transition-colors text-sm">Trouver un pro</Link>
-              <div className="flex items-center gap-3 bg-[#F8F7F4] pl-4 pr-2 py-1.5 rounded-full">
+              <div className="flex items-center gap-3 bg-[#F4F0EB] pl-4 pr-2 py-1.5 rounded-full">
                 <div className="text-right">
                   <p className="text-sm font-medium text-[#111] leading-tight">{displayName}</p>
                   <p className="text-xs text-[#999] font-light">Espace client</p>
                 </div>
-                <div className="w-9 h-9 rounded-full bg-[#4CAF50] flex items-center justify-center text-white text-sm font-medium">
+                <div className="w-9 h-9 rounded-full bg-[#2C5F3F] flex items-center justify-center text-white text-sm font-medium">
                   {displayName.charAt(0)}
                 </div>
               </div>
@@ -477,7 +498,7 @@ export default function ClientDashboardPage() {
               <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} exit={{ opacity: 0, height: 0 }} className="md:hidden border-t border-gray-100 pb-4">
                 <div className="pt-4 space-y-3">
                   <div className="flex items-center gap-3 mb-4">
-                    <div className="w-10 h-10 rounded-full bg-[#4CAF50] flex items-center justify-center text-white font-medium">{displayName.charAt(0)}</div>
+                    <div className="w-10 h-10 rounded-full bg-[#2C5F3F] flex items-center justify-center text-white font-medium">{displayName.charAt(0)}</div>
                     <div>
                       <p className="text-sm font-medium">{displayName}</p>
                       <p className="text-xs text-[#999] font-light">{clientProfile?.email}</p>
@@ -498,7 +519,7 @@ export default function ClientDashboardPage() {
         {/* Welcome */}
         <motion.div className="mb-10" initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
           <h1 className="text-4xl md:text-5xl font-light tracking-tight mb-2">
-            Bonjour, <span className="text-[#4CAF50]">{displayName.split(" ")[0]}</span>
+            Bonjour, <span className="text-[#2C5F3F]">{displayName.split(" ")[0]}</span>
           </h1>
           <p className="text-lg text-[#666] font-light">Voici un aperçu de vos projets de rénovation.</p>
         </motion.div>
@@ -506,7 +527,7 @@ export default function ClientDashboardPage() {
         {/* Stats */}
         <motion.div className="grid grid-cols-2 lg:grid-cols-4 gap-5 mb-12" initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.1 }}>
           {[
-            { label: "Projets actifs", value: `${activeCount}`, icon: "M13 10V3L4 14h7v7l9-11h-7z", color: "#4CAF50" },
+            { label: "Projets actifs", value: `${activeCount}`, icon: "M13 10V3L4 14h7v7l9-11h-7z", color: "#2C5F3F", sub: activeCount === 0 && planifiedCount > 0 ? `${planifiedCount} en attente de demarrage` : undefined },
             { label: "Budget total", value: formatCurrency(totalBudget), icon: "M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z", color: "#6366F1", sub: `${formatCurrency(totalSpent)} dépensé` },
             { label: "Progression moy.", value: `${avgProgress}%`, icon: "M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z", color: "#F59E0B" },
             { label: "Total projets", value: `${projects.length}`, icon: "M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z", color: "#0EA5E9" },
@@ -539,14 +560,14 @@ export default function ClientDashboardPage() {
 
             {projects.length === 0 ? (
               <div className="bg-white p-16 rounded-3xl border border-gray-100 text-center">
-                <div className="w-20 h-20 bg-[#4CAF50]/10 rounded-2xl mx-auto mb-5 flex items-center justify-center">
-                  <svg className="w-10 h-10 text-[#4CAF50]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div className="w-20 h-20 bg-[#2C5F3F]/10 rounded-2xl mx-auto mb-5 flex items-center justify-center">
+                  <svg className="w-10 h-10 text-[#2C5F3F]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
                   </svg>
                 </div>
                 <h3 className="text-xl font-light text-[#111] mb-2">Aucun projet pour l&apos;instant</h3>
                 <p className="text-[#666] font-light mb-6">Commencez par trouver un professionnel pour votre projet.</p>
-                <Link href="/trouver-un-professionnel" className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#4CAF50] text-white text-sm font-medium hover:bg-[#45a049] shadow-lg transition-all">
+                <Link href="/trouver-un-professionnel" className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#2C5F3F] text-white text-sm font-medium hover:bg-[#234B32] shadow-lg transition-all">
                   Trouver un pro
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
                 </Link>
@@ -560,23 +581,23 @@ export default function ClientDashboardPage() {
                     <motion.button
                       key={project.id}
                       onClick={() => setSelectedProjectId(project.id)}
-                      className="group w-full text-left bg-white p-7 rounded-3xl border border-gray-100 hover:border-[#4CAF50]/30 hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
+                      className="group w-full text-left bg-white p-7 rounded-3xl border border-gray-100 hover:border-[#2C5F3F]/30 hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.5, delay: 0.15 + i * 0.08 }}
                     >
                       <div className="flex items-center justify-between mb-4">
                         <span className="px-3 py-1 rounded-full text-xs font-medium" style={{ background: sc.bg, color: sc.color }}>{sc.label}</span>
-                        <svg className="w-5 h-5 text-[#ccc] group-hover:text-[#4CAF50] group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg className="w-5 h-5 text-[#ccc] group-hover:text-[#2C5F3F] group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                         </svg>
                       </div>
-                      <h3 className="text-xl font-normal text-[#111] mb-1.5 group-hover:text-[#4CAF50] transition-colors">{project.title}</h3>
+                      <h3 className="text-xl font-normal text-[#111] mb-1.5 group-hover:text-[#2C5F3F] transition-colors">{project.title}</h3>
                       <p className="text-sm text-[#666] font-light leading-relaxed mb-5 line-clamp-2">{project.description}</p>
                       <div className="mb-5">
                         <div className="flex justify-between mb-2">
                           <span className="text-sm text-[#999] font-light">Progression</span>
-                          <span className="text-sm font-medium text-[#4CAF50]">{project.progress}%</span>
+                          <span className="text-sm font-medium text-[#2C5F3F]">{project.progress}%</span>
                         </div>
                         <ProgressBar value={project.progress} height="h-1.5" />
                       </div>
@@ -598,7 +619,7 @@ export default function ClientDashboardPage() {
           <motion.div className="lg:col-span-1" initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.3 }}>
             <h2 className="text-2xl font-light mb-6">Actions rapides</h2>
             <div className="space-y-3">
-              <Link href="/chat-renovation" className="group flex items-center gap-4 bg-gradient-to-r from-[#4CAF50] to-[#45a049] p-5 rounded-2xl text-white hover:shadow-xl transition-all duration-300">
+              <Link href="/chat-renovation" className="group flex items-center gap-4 bg-gradient-to-r from-[#2C5F3F] to-[#234B32] p-5 rounded-2xl text-white hover:shadow-xl transition-all duration-300">
                 <div className="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center flex-shrink-0">
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
@@ -612,9 +633,9 @@ export default function ClientDashboardPage() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                 </svg>
               </Link>
-              <Link href="/trouver-un-professionnel" className="group flex items-center gap-4 bg-white p-5 rounded-2xl border border-gray-100 hover:border-[#4CAF50]/30 hover:shadow-lg transition-all duration-300">
-                <div className="w-10 h-10 bg-[#4CAF50]/10 rounded-xl flex items-center justify-center flex-shrink-0">
-                  <svg className="w-5 h-5 text-[#4CAF50]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <Link href="/trouver-un-professionnel" className="group flex items-center gap-4 bg-white p-5 rounded-2xl border border-gray-100 hover:border-[#2C5F3F]/30 hover:shadow-lg transition-all duration-300">
+                <div className="w-10 h-10 bg-[#2C5F3F]/10 rounded-xl flex items-center justify-center flex-shrink-0">
+                  <svg className="w-5 h-5 text-[#2C5F3F]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                   </svg>
                 </div>
@@ -622,7 +643,7 @@ export default function ClientDashboardPage() {
                   <p className="font-medium text-sm text-[#111]">Trouver un pro</p>
                   <p className="text-xs text-[#999] font-light">2,500+ professionnels vérifiés</p>
                 </div>
-                <svg className="w-5 h-5 ml-auto text-[#ccc] group-hover:text-[#4CAF50] group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-5 h-5 ml-auto text-[#ccc] group-hover:text-[#2C5F3F] group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                 </svg>
               </Link>

@@ -3,12 +3,29 @@
 import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import ReactMarkdown from "react-markdown";
+
+interface RecommendedPro {
+  user_id: string;
+  full_name: string;
+  company_name: string;
+  specialty: string[];
+  avatar_url: string | null;
+  cover_url: string | null;
+  rating: number;
+  total_reviews: number;
+  service_area: string | null;
+  years_experience: number;
+  hourly_rate: number | null;
+  verified: boolean;
+}
 
 interface Message {
   role: "user" | "assistant";
   content: string;
   image?: string;
   editedImage?: string;
+  recommendedPros?: RecommendedPro[];
 }
 
 export default function ChatRenovation() {
@@ -110,7 +127,8 @@ export default function ChatRenovation() {
 
       const assistantMessage: Message = {
         role: "assistant",
-        content: data.message
+        content: data.message,
+        recommendedPros: data.recommendedPros?.length > 0 ? data.recommendedPros : undefined,
       };
 
       setMessages(prev => [...prev, assistantMessage]);
@@ -182,7 +200,7 @@ export default function ChatRenovation() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-20">
             <Link href="/" className="flex items-center gap-2 group">
-              <span className="text-3xl text-[#4CAF50] font-bold">*</span>
+              <span className="text-3xl text-[#2C5F3F] font-bold">*</span>
               <span className="text-xl font-light tracking-tight">Les Bons Bras</span>
             </Link>
 
@@ -193,7 +211,7 @@ export default function ChatRenovation() {
               <Link href="/devenir-professionnel" className="text-[#666] hover:text-[#111] font-light transition-colors">
                 Devenir pro
               </Link>
-              <Link href="/#contact" className="px-6 py-2.5 bg-[#4CAF50] text-white rounded-full text-sm font-medium hover:bg-[#45a049] transition-all">
+              <Link href="/#contact" className="px-6 py-2.5 bg-[#2C5F3F] text-white rounded-full text-sm font-medium hover:bg-[#234B32] transition-all">
                 Démarrer un projet
               </Link>
             </div>
@@ -202,17 +220,17 @@ export default function ChatRenovation() {
       </nav>
 
       {/* ================= CHAT INTERFACE ================= */}
-      <div className="pt-20 min-h-screen bg-[#F8F7F4]">
+      <div className="pt-20 min-h-screen bg-[#F4F0EB]">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           
           {/* Header */}
           <div className="text-center mb-8">
-            <div className="inline-flex items-center gap-2 bg-[#4CAF50]/10 px-4 py-2 rounded-full mb-4">
-              <span className="w-2 h-2 bg-[#4CAF50] rounded-full animate-pulse" />
-              <span className="text-sm font-light text-[#4CAF50]">Assistant IA Rénovation</span>
+            <div className="inline-flex items-center gap-2 bg-[#2C5F3F]/10 px-4 py-2 rounded-full mb-4">
+              <span className="w-2 h-2 bg-[#2C5F3F] rounded-full animate-pulse" />
+              <span className="text-sm font-light text-[#2C5F3F]">Assistant IA Rénovation</span>
             </div>
             <h1 className="text-4xl md:text-5xl font-light mb-4">
-              Transformez votre <span className="text-[#4CAF50]">intérieur</span> avec l'IA
+              Transformez votre <span className="text-[#2C5F3F]">intérieur</span> avec l'IA
             </h1>
             <p className="text-lg text-[#666] font-light">
               Uploadez une photo, recevez des conseils et visualisez les transformations
@@ -230,7 +248,7 @@ export default function ChatRenovation() {
                   className={`flex gap-4 ${message.role === "user" ? "justify-end" : "justify-start"}`}
                 >
                   {message.role === "assistant" && (
-                    <div className="w-10 h-10 bg-[#4CAF50] rounded-full flex items-center justify-center text-white flex-shrink-0">
+                    <div className="w-10 h-10 bg-[#2C5F3F] rounded-full flex items-center justify-center text-white flex-shrink-0">
                       <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
                       </svg>
@@ -241,7 +259,7 @@ export default function ChatRenovation() {
                     <div
                       className={`rounded-2xl p-4 ${
                         message.role === "user"
-                          ? "bg-[#4CAF50] text-white"
+                          ? "bg-[#2C5F3F] text-white"
                           : "bg-gray-100 text-[#111]"
                       }`}
                     >
@@ -256,7 +274,7 @@ export default function ChatRenovation() {
                       )}
                       
                       {message.editedImage && (
-                        <div className="mb-3 rounded-xl overflow-hidden border-2 border-[#4CAF50]">
+                        <div className="mb-3 rounded-xl overflow-hidden border-2 border-[#2C5F3F]">
                           <img
                             src={message.editedImage}
                             alt="Edited"
@@ -265,10 +283,81 @@ export default function ChatRenovation() {
                         </div>
                       )}
 
-                      <p className="font-light leading-relaxed whitespace-pre-wrap">
-                        {message.content}
-                      </p>
+                      {message.role === "assistant" ? (
+                        <div className="prose prose-sm prose-green max-w-none [&_p]:font-light [&_li]:font-light [&_strong]:text-inherit">
+                          <ReactMarkdown>{message.content}</ReactMarkdown>
+                        </div>
+                      ) : (
+                        <p className="font-light leading-relaxed whitespace-pre-wrap">
+                          {message.content}
+                        </p>
+                      )}
                     </div>
+
+                    {/* Cartes de pros recommandés */}
+                    {message.recommendedPros && message.recommendedPros.length > 0 && (
+                      <div className="mt-4">
+                        <p className="text-xs text-[#666] font-light mb-3 flex items-center gap-1.5">
+                          <svg className="w-4 h-4 text-[#2C5F3F]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" />
+                          </svg>
+                          Professionnels recommandés pour votre projet :
+                        </p>
+                        <div className="flex flex-col gap-2">
+                          {message.recommendedPros.map((pro) => (
+                            <Link
+                              key={pro.user_id}
+                              href={`/trouver-un-professionnel?pro=${pro.user_id}`}
+                              className="group flex items-center gap-3 bg-white rounded-xl border border-gray-100 p-3 hover:shadow-md hover:border-[#2C5F3F]/20 transition-all duration-200"
+                            >
+                              {/* Avatar */}
+                              {pro.avatar_url ? (
+                                <img src={pro.avatar_url} alt={pro.full_name} className="w-11 h-11 rounded-lg object-cover flex-shrink-0" />
+                              ) : (
+                                <div className="w-11 h-11 rounded-lg bg-[#2C5F3F] flex items-center justify-center text-white text-sm font-medium flex-shrink-0">
+                                  {pro.full_name.charAt(0)}
+                                </div>
+                              )}
+                              {/* Info */}
+                              <div className="flex-1 min-w-0">
+                                <div className="flex items-center gap-1.5">
+                                  <h4 className="text-sm font-medium text-[#111] group-hover:text-[#2C5F3F] transition-colors truncate">{pro.full_name}</h4>
+                                  {pro.verified && (
+                                    <svg className="w-3.5 h-3.5 text-[#2C5F3F] flex-shrink-0" fill="currentColor" viewBox="0 0 24 24">
+                                      <path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                                    </svg>
+                                  )}
+                                </div>
+                                <p className="text-xs text-[#666] font-light truncate">{pro.company_name}</p>
+                              </div>
+                              {/* Rating + chevron */}
+                              <div className="flex items-center gap-2 flex-shrink-0">
+                                {pro.rating > 0 && (
+                                  <span className="flex items-center gap-0.5 text-xs text-[#666]">
+                                    <svg className="w-3.5 h-3.5 text-[#E2711D]" fill="currentColor" viewBox="0 0 24 24">
+                                      <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                                    </svg>
+                                    {pro.rating.toFixed(1)}
+                                  </span>
+                                )}
+                                <svg className="w-4 h-4 text-[#999] group-hover:text-[#2C5F3F] transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                                </svg>
+                              </div>
+                            </Link>
+                          ))}
+                        </div>
+                        <Link
+                          href="/trouver-un-professionnel"
+                          className="mt-3 inline-flex items-center gap-1.5 text-xs font-medium text-[#2C5F3F] hover:text-[#234B32] transition-colors"
+                        >
+                          Voir tous les professionnels
+                          <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                          </svg>
+                        </Link>
+                      </div>
+                    )}
 
                     {/* Boutons pour modifier l'image avec différents styles */}
                     {message.role === "user" && message.image && (
@@ -280,7 +369,7 @@ export default function ChatRenovation() {
                               key={idx}
                               onClick={() => handleEditImage(message.image!, idx)}
                               disabled={isLoading}
-                              className="px-3 py-2 bg-white border-2 border-[#4CAF50] text-[#4CAF50] rounded-lg text-xs font-light hover:bg-[#4CAF50] hover:text-white transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                              className="px-3 py-2 bg-white border-2 border-[#2C5F3F] text-[#2C5F3F] rounded-lg text-xs font-light hover:bg-[#2C5F3F] hover:text-white transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                             >
                               {style.name}
                             </button>
@@ -302,7 +391,7 @@ export default function ChatRenovation() {
 
               {isLoading && (
                 <div className="flex gap-4 justify-start">
-                  <div className="w-10 h-10 bg-[#4CAF50] rounded-full flex items-center justify-center text-white">
+                  <div className="w-10 h-10 bg-[#2C5F3F] rounded-full flex items-center justify-center text-white">
                     <svg className="w-6 h-6 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
                     </svg>
@@ -364,14 +453,14 @@ export default function ChatRenovation() {
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
                   placeholder="Décrivez votre projet ou posez une question..."
-                  className="flex-1 bg-gray-100 rounded-xl px-6 py-3 text-[#111] placeholder:text-[#666] focus:outline-none focus:ring-2 focus:ring-[#4CAF50] transition-all"
+                  className="flex-1 bg-gray-100 rounded-xl px-6 py-3 text-[#111] placeholder:text-[#666] focus:outline-none focus:ring-2 focus:ring-[#2C5F3F] transition-all"
                   disabled={isLoading}
                 />
 
                 <button
                   type="submit"
                   disabled={isLoading || (!input.trim() && !selectedImage)}
-                  className="w-12 h-12 bg-[#4CAF50] text-white rounded-xl flex items-center justify-center hover:bg-[#45a049] transition-all disabled:opacity-50 disabled:cursor-not-allowed flex-shrink-0"
+                  className="w-12 h-12 bg-[#2C5F3F] text-white rounded-xl flex items-center justify-center hover:bg-[#234B32] transition-all disabled:opacity-50 disabled:cursor-not-allowed flex-shrink-0"
                 >
                   <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
@@ -416,8 +505,8 @@ export default function ChatRenovation() {
                 description: "DALL-E 2 modifie votre photo pour visualiser le résultat final"
               }
             ].map((feature, i) => (
-              <div key={i} className="bg-white rounded-2xl p-6 border border-gray-100 hover:border-[#4CAF50]/30 hover:shadow-lg transition-all">
-                <div className="w-12 h-12 bg-[#4CAF50]/10 rounded-xl flex items-center justify-center text-[#4CAF50] mb-4">
+              <div key={i} className="bg-white rounded-2xl p-6 border border-gray-100 hover:border-[#2C5F3F]/30 hover:shadow-lg transition-all">
+                <div className="w-12 h-12 bg-[#2C5F3F]/10 rounded-xl flex items-center justify-center text-[#2C5F3F] mb-4">
                   {feature.icon}
                 </div>
                 <h3 className="font-medium text-[#111] mb-2">{feature.title}</h3>
