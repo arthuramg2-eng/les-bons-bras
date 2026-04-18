@@ -422,7 +422,7 @@ export default function TrouverUnProfessionnelPage() {
 
               {/* CTA button */}
               <button
-                onClick={() => setShowRequestForm(true)}
+                onClick={() => isLoggedIn ? setShowRequestForm(true) : router.push("/connexion")}
                 className="w-full py-3 bg-[#2C5F3F] text-white rounded-full text-sm font-medium hover:bg-[#1a3d27] transition-colors shadow-lg mt-2"
               >
                 Demander un devis →
@@ -617,119 +617,205 @@ export default function TrouverUnProfessionnelPage() {
             )}
           </motion.div>
 
-          {/* ── CTA / Request form ── */}
+          {/* ── CTA ── */}
           <motion.div
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.4 }}
           >
-            {!isLoggedIn ? (
-              <div className="bg-gradient-to-r from-[#2C5F3F] to-[#234B32] rounded-3xl p-8 text-white text-center">
-                <h2 className="text-2xl font-light mb-3">Intéressé par ce professionnel ?</h2>
-                <p className="text-white/80 font-light mb-6">Connectez-vous pour envoyer une demande.</p>
-                <Link href="/connexion" className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full bg-white text-[#2C5F3F] text-sm font-medium hover:shadow-xl transition-all">
-                  Se connecter
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
-                </Link>
-              </div>
-            ) : requestSent ? (
-              <div className="bg-white rounded-3xl border border-[#2C5F3F]/30 p-8 text-center">
-                <div className="w-16 h-16 bg-[#2C5F3F]/10 rounded-2xl mx-auto mb-4 flex items-center justify-center">
+            <div className="bg-gradient-to-r from-[#2C5F3F] to-[#234B32] rounded-3xl p-8 text-white text-center">
+              <h2 className="text-2xl font-light mb-3">Intéressé par ce professionnel ?</h2>
+              <p className="text-white/80 font-light mb-6">
+                {isLoggedIn ? "Décrivez votre projet et envoyez une demande directement." : "Connectez-vous pour envoyer une demande."}
+              </p>
+              <button
+                onClick={() => isLoggedIn ? setShowRequestForm(true) : router.push("/connexion")}
+                className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full bg-white text-[#2C5F3F] text-sm font-medium hover:shadow-xl transition-all"
+              >
+                {isLoggedIn ? "Demander un devis" : "Se connecter"}
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </button>
+            </div>
+          </motion.div>
+        </div>
+
+        {/* ── Modal devis ── */}
+        <AnimatePresence>
+          {showRequestForm && isLoggedIn && !requestSent && (
+            <motion.div
+              className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setShowRequestForm(false)}
+            >
+              <motion.div
+                className="bg-white rounded-3xl shadow-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto"
+                initial={{ opacity: 0, scale: 0.95, y: 20 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.95, y: 20 }}
+                transition={{ duration: 0.25 }}
+                onClick={(e) => e.stopPropagation()}
+              >
+                <div className="p-8">
+                  <div className="flex items-start justify-between mb-6">
+                    <div>
+                      <h2 className="text-2xl font-light text-[#111]">Demande de devis</h2>
+                      <p className="text-sm text-[#666] font-light mt-1">pour {p.full_name}</p>
+                    </div>
+                    <button
+                      onClick={() => setShowRequestForm(false)}
+                      className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 transition-colors text-[#666] flex-shrink-0"
+                    >
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                      </svg>
+                    </button>
+                  </div>
+
+                  <div className="space-y-4">
+                    <div>
+                      <label className="block text-sm text-[#666] font-light mb-1.5">Titre du projet *</label>
+                      <input
+                        type="text"
+                        value={requestTitle}
+                        onChange={(e) => setRequestTitle(e.target.value)}
+                        placeholder="Ex: Rénovation cuisine complète"
+                        className="w-full bg-[#F4F0EB] border border-gray-200 rounded-xl px-4 py-3 text-[#111] placeholder:text-[#999] text-sm font-light focus:outline-none focus:ring-2 focus:ring-[#2C5F3F] transition-all"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm text-[#666] font-light mb-1.5">Description *</label>
+                      <textarea
+                        value={requestDescription}
+                        onChange={(e) => setRequestDescription(e.target.value)}
+                        rows={4}
+                        placeholder="Décrivez les travaux souhaités, l'état actuel, vos attentes..."
+                        className="w-full bg-[#F4F0EB] border border-gray-200 rounded-xl px-4 py-3 text-[#111] placeholder:text-[#999] text-sm font-light focus:outline-none focus:ring-2 focus:ring-[#2C5F3F] transition-all resize-none"
+                      />
+                    </div>
+                    <div className="grid grid-cols-2 gap-3">
+                      <div>
+                        <label className="block text-sm text-[#666] font-light mb-1.5">Budget estimé ($)</label>
+                        <input
+                          type="number"
+                          value={requestBudget}
+                          onChange={(e) => setRequestBudget(e.target.value)}
+                          placeholder="25000"
+                          className="w-full bg-[#F4F0EB] border border-gray-200 rounded-xl px-4 py-3 text-[#111] placeholder:text-[#999] text-sm font-light focus:outline-none focus:ring-2 focus:ring-[#2C5F3F] transition-all"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-sm text-[#666] font-light mb-1.5">Adresse des travaux</label>
+                        <input
+                          type="text"
+                          value={requestAddress}
+                          onChange={(e) => setRequestAddress(e.target.value)}
+                          placeholder="Montréal, QC"
+                          className="w-full bg-[#F4F0EB] border border-gray-200 rounded-xl px-4 py-3 text-[#111] placeholder:text-[#999] text-sm font-light focus:outline-none focus:ring-2 focus:ring-[#2C5F3F] transition-all"
+                        />
+                      </div>
+                    </div>
+                    <div>
+                      <label className="block text-sm text-[#666] font-light mb-1.5">Message personnel (optionnel)</label>
+                      <textarea
+                        value={requestMessage}
+                        onChange={(e) => setRequestMessage(e.target.value)}
+                        rows={2}
+                        placeholder="Bonjour, j'aimerais discuter de mon projet..."
+                        className="w-full bg-[#F4F0EB] border border-gray-200 rounded-xl px-4 py-3 text-[#111] placeholder:text-[#999] text-sm font-light focus:outline-none focus:ring-2 focus:ring-[#2C5F3F] transition-all resize-none"
+                      />
+                    </div>
+
+                    {requestError && (
+                      <div className="px-4 py-3 rounded-xl text-sm font-light bg-red-50 text-red-600 border border-red-100">
+                        {requestError}
+                      </div>
+                    )}
+
+                    <div className="flex gap-3 pt-2">
+                      <button
+                        onClick={handleSendRequest}
+                        disabled={sendingRequest || !requestTitle.trim() || !requestDescription.trim()}
+                        className="flex-1 py-3.5 rounded-full text-sm font-medium text-white bg-[#2C5F3F] hover:bg-[#234B32] shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                      >
+                        {sendingRequest ? (
+                          <>
+                            <motion.div
+                              className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full"
+                              animate={{ rotate: 360 }}
+                              transition={{ duration: 0.8, repeat: Infinity, ease: "linear" }}
+                            />
+                            Envoi en cours...
+                          </>
+                        ) : (
+                          <>
+                            Envoyer la demande
+                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                            </svg>
+                          </>
+                        )}
+                      </button>
+                      <button
+                        onClick={() => setShowRequestForm(false)}
+                        className="px-5 py-3.5 rounded-full text-sm font-medium text-[#666] bg-white border border-gray-200 hover:border-gray-300 transition-all"
+                      >
+                        Annuler
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* ── Modal confirmation envoi ── */}
+        <AnimatePresence>
+          {requestSent && (
+            <motion.div
+              className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+            >
+              <motion.div
+                className="bg-white rounded-3xl shadow-2xl w-full max-w-md p-10 text-center"
+                initial={{ opacity: 0, scale: 0.95, y: 20 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.95, y: 20 }}
+                transition={{ duration: 0.25 }}
+              >
+                <div className="w-16 h-16 bg-[#2C5F3F]/10 rounded-2xl mx-auto mb-5 flex items-center justify-center">
                   <svg className="w-8 h-8 text-[#2C5F3F]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                   </svg>
                 </div>
                 <h2 className="text-2xl font-light text-[#111] mb-2">Demande envoyée !</h2>
-                <p className="text-[#666] font-light mb-6">{p.full_name} recevra votre demande et pourra l&apos;accepter depuis son tableau de bord.</p>
+                <p className="text-[#666] font-light mb-8">
+                  {p.full_name} recevra votre demande et pourra l&apos;accepter depuis son tableau de bord.
+                </p>
                 <div className="flex gap-3 justify-center">
-                  <Link href="/dashboard/client" className="px-6 py-3 rounded-full bg-[#2C5F3F] text-white text-sm font-medium hover:bg-[#234B32] shadow-lg transition-all">
+                  <Link
+                    href="/dashboard/client"
+                    className="px-6 py-3 rounded-full bg-[#2C5F3F] text-white text-sm font-medium hover:bg-[#234B32] shadow-lg transition-all"
+                  >
                     Mon tableau de bord
                   </Link>
-                  <button onClick={() => { setSelectedPro(null); setRequestSent(false); setShowRequestForm(false); }} className="px-6 py-3 rounded-full bg-white text-[#666] text-sm font-medium border border-gray-200 hover:border-gray-300 transition-all">
+                  <button
+                    onClick={() => { setSelectedPro(null); setRequestSent(false); setShowRequestForm(false); }}
+                    className="px-6 py-3 rounded-full bg-white text-[#666] text-sm font-medium border border-gray-200 hover:border-gray-300 transition-all"
+                  >
                     Voir d&apos;autres pros
                   </button>
                 </div>
-              </div>
-            ) : !showRequestForm ? (
-              <div className="bg-gradient-to-r from-[#2C5F3F] to-[#234B32] rounded-3xl p-8 text-white text-center">
-                <h2 className="text-2xl font-light mb-3">Intéressé par ce professionnel ?</h2>
-                <p className="text-white/80 font-light mb-6">Décrivez votre projet et envoyez une demande directement.</p>
-                <button
-                  onClick={() => setShowRequestForm(true)}
-                  className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full bg-white text-[#2C5F3F] text-sm font-medium hover:shadow-xl transition-all"
-                >
-                  Demander un devis
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
-                </button>
-              </div>
-            ) : (
-              <div className="bg-white rounded-3xl border border-gray-100 shadow-lg p-8">
-                <h2 className="text-2xl font-light text-[#111] mb-2">Envoyer une demande à {p.full_name}</h2>
-                <p className="text-[#666] font-light mb-8">Décrivez votre projet pour que le professionnel puisse évaluer votre demande.</p>
-
-                <div className="space-y-5">
-                  <div>
-                    <label className="block text-sm text-[#666] font-light mb-1.5">Titre du projet *</label>
-                    <input type="text" value={requestTitle} onChange={(e) => setRequestTitle(e.target.value)} placeholder="Ex: Rénovation cuisine complète"
-                      className="w-full bg-[#F4F0EB] border border-gray-200 rounded-xl px-5 py-3.5 text-[#111] placeholder:text-[#999] text-sm font-light focus:outline-none focus:ring-2 focus:ring-[#2C5F3F] transition-all" />
-                  </div>
-                  <div>
-                    <label className="block text-sm text-[#666] font-light mb-1.5">Description *</label>
-                    <textarea value={requestDescription} onChange={(e) => setRequestDescription(e.target.value)} rows={4} placeholder="Décrivez les travaux souhaités, l'état actuel, vos attentes..."
-                      className="w-full bg-[#F4F0EB] border border-gray-200 rounded-xl px-5 py-3.5 text-[#111] placeholder:text-[#999] text-sm font-light focus:outline-none focus:ring-2 focus:ring-[#2C5F3F] transition-all resize-none" />
-                  </div>
-                  <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-sm text-[#666] font-light mb-1.5">Budget estimé ($)</label>
-                      <input type="number" value={requestBudget} onChange={(e) => setRequestBudget(e.target.value)} placeholder="25000"
-                        className="w-full bg-[#F4F0EB] border border-gray-200 rounded-xl px-5 py-3.5 text-[#111] placeholder:text-[#999] text-sm font-light focus:outline-none focus:ring-2 focus:ring-[#2C5F3F] transition-all" />
-                    </div>
-                    <div>
-                      <label className="block text-sm text-[#666] font-light mb-1.5">Adresse des travaux</label>
-                      <input type="text" value={requestAddress} onChange={(e) => setRequestAddress(e.target.value)} placeholder="1234 rue Exemple, Montréal"
-                        className="w-full bg-[#F4F0EB] border border-gray-200 rounded-xl px-5 py-3.5 text-[#111] placeholder:text-[#999] text-sm font-light focus:outline-none focus:ring-2 focus:ring-[#2C5F3F] transition-all" />
-                    </div>
-                  </div>
-                  <div>
-                    <label className="block text-sm text-[#666] font-light mb-1.5">Message personnel (optionnel)</label>
-                    <textarea value={requestMessage} onChange={(e) => setRequestMessage(e.target.value)} rows={3} placeholder="Bonjour, j'aimerais discuter de mon projet..."
-                      className="w-full bg-[#F4F0EB] border border-gray-200 rounded-xl px-5 py-3.5 text-[#111] placeholder:text-[#999] text-sm font-light focus:outline-none focus:ring-2 focus:ring-[#2C5F3F] transition-all resize-none" />
-                  </div>
-
-                  {requestError && (
-                    <div className="px-5 py-3 rounded-xl text-sm font-light bg-red-50 text-red-600 border border-red-100">{requestError}</div>
-                  )}
-
-                  <div className="flex gap-3 pt-2">
-                    <button
-                      onClick={handleSendRequest}
-                      disabled={sendingRequest || !requestTitle.trim() || !requestDescription.trim()}
-                      className="flex-1 py-4 rounded-full text-sm font-medium text-white bg-[#2C5F3F] hover:bg-[#234B32] shadow-lg hover:shadow-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
-                    >
-                      {sendingRequest ? (
-                        <>
-                          <motion.div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full" animate={{ rotate: 360 }} transition={{ duration: 0.8, repeat: Infinity, ease: "linear" }} />
-                          Envoi en cours...
-                        </>
-                      ) : (
-                        <>
-                          Envoyer la demande
-                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>
-                        </>
-                      )}
-                    </button>
-                    <button
-                      onClick={() => setShowRequestForm(false)}
-                      className="px-6 py-4 rounded-full text-sm font-medium text-[#666] bg-white border border-gray-200 hover:border-gray-300 transition-all"
-                    >
-                      Annuler
-                    </button>
-                  </div>
-                </div>
-              </div>
-            )}
-          </motion.div>
-        </div>
+              </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </main>
     );
   }

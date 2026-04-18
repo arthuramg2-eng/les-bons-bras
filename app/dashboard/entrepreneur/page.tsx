@@ -403,6 +403,25 @@ export default function EntrepreneurDashboardPage() {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
               </svg>
             </Link>
+
+            {/* Billing link */}
+            <Link
+              href="/dashboard/entrepreneur/facturation"
+              className="group flex items-center gap-4 bg-white p-5 rounded-2xl border border-gray-100 hover:border-[#2C5F3F]/30 hover:shadow-lg transition-all duration-300 mt-4"
+            >
+              <div className="w-10 h-10 bg-[#D97706]/10 rounded-xl flex items-center justify-center flex-shrink-0">
+                <svg className="w-5 h-5 text-[#D97706]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
+                </svg>
+              </div>
+              <div>
+                <p className="font-medium text-sm text-[#111]">Mon abonnement</p>
+                <p className="text-xs text-[#999] font-light">Tarifs et plan actif</p>
+              </div>
+              <svg className="w-5 h-5 ml-auto text-[#ccc] group-hover:text-[#2C5F3F] group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
+            </Link>
           </motion.div>
         </div>
       </div>
