@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
 import { useUserRole } from "@/hooks/useUserRole";
+import type { ProProfile } from "@/lib/supabase/types";
 
 /* ─────────────────────────── TYPES ─────────────────────────── */
 
@@ -14,7 +15,6 @@ type PlanId = "bras-actif" | "bras-fiable" | "bras-dor";
 interface Plan {
   id: PlanId;
   name: string;
-  badge: string;
   badgeColor: string;
   badgeBg: string;
   monthlyPrice: number;
@@ -30,7 +30,6 @@ const PLANS: Plan[] = [
   {
     id: "bras-actif",
     name: "Bras Actif",
-    badge: "01",
     badgeColor: "#2C5F3F",
     badgeBg: "rgba(44,95,63,0.1)",
     monthlyPrice: 99,
@@ -46,13 +45,12 @@ const PLANS: Plan[] = [
   {
     id: "bras-fiable",
     name: "Bras Fiable",
-    badge: "02",
     badgeColor: "#6366F1",
     badgeBg: "rgba(99,102,241,0.1)",
     monthlyPrice: 129,
     commission: 7,
     features: [
-      "Meilleure visibilité (remontée dans les résultats)",
+      "Meilleure visibilité dans les résultats",
       "Badge Fiable",
       "Priorité modérée sur les demandes",
       "Accès à plus de projets",
@@ -63,7 +61,6 @@ const PLANS: Plan[] = [
   {
     id: "bras-dor",
     name: "Bras d'Or",
-    badge: "03",
     badgeColor: "#D97706",
     badgeBg: "rgba(217,119,6,0.1)",
     monthlyPrice: 149,
@@ -80,6 +77,15 @@ const PLANS: Plan[] = [
 ];
 
 /* ─────────────────────────── HELPERS ─────────────────────────── */
+
+function formatDate(iso: string | null): string {
+  if (!iso) return "—";
+  return new Date(iso).toLocaleDateString("fr-CA", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  });
+}
 
 function LoadingScreen() {
   return (
@@ -121,7 +127,6 @@ function PlanCard({
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
     >
-      {/* Popular badge */}
       {plan.highlight && (
         <div className="absolute -top-4 left-1/2 -translate-x-1/2">
           <span className="bg-[#2C5F3F] text-white text-xs font-medium px-4 py-1.5 rounded-full">
@@ -130,7 +135,6 @@ function PlanCard({
         </div>
       )}
 
-      {/* Header */}
       <div className="flex items-start gap-4 mb-6">
         <div
           className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 text-xl font-bold"
@@ -146,13 +150,12 @@ function PlanCard({
         </div>
       </div>
 
-      {/* Pricing */}
       <div className="mb-6 pb-6 border-b border-gray-100">
         <div className="flex items-baseline gap-1">
           <span className="text-4xl font-light text-[#111]">{plan.monthlyPrice}$</span>
           <span className="text-[#666] font-light text-sm">/ mois</span>
         </div>
-        <div className="mt-2 flex items-center gap-2">
+        <div className="mt-2">
           <span
             className="text-sm font-medium px-3 py-1 rounded-full"
             style={{ background: plan.badgeBg, color: plan.badgeColor }}
@@ -162,7 +165,6 @@ function PlanCard({
         </div>
       </div>
 
-      {/* Features */}
       <ul className="space-y-3 mb-8 flex-1">
         {plan.features.map((f, i) => (
           <li key={i} className="flex items-start gap-2.5 text-sm text-[#444] font-light">
@@ -179,7 +181,6 @@ function PlanCard({
         ))}
       </ul>
 
-      {/* CTA */}
       {isCurrentPlan ? (
         <div className="w-full py-3 rounded-full bg-[#2C5F3F]/10 text-[#2C5F3F] text-sm font-medium text-center">
           ✓ Plan actuel
@@ -194,7 +195,7 @@ function PlanCard({
               : "bg-[#F4F0EB] text-[#2C5F3F] hover:bg-[#2C5F3F] hover:text-white"
           }`}
         >
-          Choisir ce plan
+          {pending ? "Enregistrement..." : "Choisir ce plan"}
         </button>
       )}
     </motion.div>
@@ -211,19 +212,46 @@ export default function FacturationPage() {
   const { role, profile, userId, loading } = useUserRole();
 
   const [currentPlan, setCurrentPlan] = useState<PlanId>("bras-actif");
+  const [subscriptionStatus, setSubscriptionStatus] = useState<"active" | "canceled" | "pending">("active");
+  const [renewalDate, setRenewalDate] = useState<string | null>(null);
+  const [startedAt, setStartedAt] = useState<string | null>(null);
   const [pending, setPending] = useState(false);
-  const [successPlan, setSuccessPlan] = useState<PlanId | null>(null);
+  const [toast, setToast] = useState<{ type: "success" | "error"; message: string } | null>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [dataLoaded, setDataLoaded] = useState(false);
 
+  /* Load subscription from Supabase once profile is ready */
+  useEffect(() => {
+    if (loading || !userId || role !== "professionnel") return;
+
+    async function fetchSubscription() {
+      const { data, error } = await (supabase.from("pro_profiles") as any)
+        .select("subscription_plan, subscription_status, subscription_started_at, subscription_renewal_date")
+        .eq("user_id", userId)
+        .single();
+
+      if (!error && data) {
+        if (data.subscription_plan) setCurrentPlan(data.subscription_plan as PlanId);
+        if (data.subscription_status) setSubscriptionStatus(data.subscription_status);
+        if (data.subscription_renewal_date) setRenewalDate(data.subscription_renewal_date);
+        if (data.subscription_started_at) setStartedAt(data.subscription_started_at);
+      }
+      setDataLoaded(true);
+    }
+
+    fetchSubscription();
+  }, [loading, userId, role]);
+
+  /* Redirect non-pros */
   useEffect(() => {
     if (!loading && role !== "professionnel") {
       router.push("/dashboard");
     }
   }, [loading, role, router]);
 
-  if (loading || (!loading && role !== "professionnel")) return <LoadingScreen />;
+  if (loading || !dataLoaded || (!loading && role !== "professionnel")) return <LoadingScreen />;
 
-  const displayName = (profile as { full_name?: string } | null)?.full_name || "Professionnel";
+  const displayName = (profile as ProProfile | null)?.full_name || "Professionnel";
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
@@ -231,14 +259,39 @@ export default function FacturationPage() {
     router.refresh();
   };
 
+  const showToast = (type: "success" | "error", message: string) => {
+    setToast({ type, message });
+    setTimeout(() => setToast(null), 3500);
+  };
+
   const handleSelectPlan = async (planId: PlanId) => {
+    if (planId === currentPlan) return;
     setPending(true);
-    // Simulate async plan change (replace with Stripe / real payment logic)
-    await new Promise((r) => setTimeout(r, 900));
-    setCurrentPlan(planId);
-    setSuccessPlan(planId);
+
+    const now = new Date();
+    const renewal = new Date(now);
+    renewal.setMonth(renewal.getMonth() + 1);
+
+    const { error } = await (supabase.from("pro_profiles") as any)
+      .update({
+        subscription_plan: planId,
+        subscription_status: "active",
+        subscription_started_at: now.toISOString(),
+        subscription_renewal_date: renewal.toISOString(),
+      })
+      .eq("user_id", userId);
+
+    if (error) {
+      showToast("error", "Erreur lors du changement de plan. Réessayez.");
+    } else {
+      setCurrentPlan(planId);
+      setSubscriptionStatus("active");
+      setStartedAt(now.toISOString());
+      setRenewalDate(renewal.toISOString());
+      showToast("success", `Plan ${PLANS.find((p) => p.id === planId)?.name} activé avec succès !`);
+    }
+
     setPending(false);
-    setTimeout(() => setSuccessPlan(null), 3000);
   };
 
   const activePlan = PLANS.find((p) => p.id === currentPlan)!;
@@ -325,14 +378,14 @@ export default function FacturationPage() {
         >
           <div className="flex items-center gap-3 mb-2">
             <div className="w-10 h-10 bg-[#2C5F3F] text-white rounded-xl flex items-center justify-center font-bold text-lg">
-              01
+              ✳
             </div>
             <p className="text-xs uppercase tracking-widest text-[#999] font-medium">
               Système de niveaux
             </p>
           </div>
           <h1 className="text-4xl md:text-5xl font-light tracking-tight mb-3">
-            Nos tarifs <span className="text-[#2C5F3F]">pour les pros</span>
+            Mon <span className="text-[#2C5F3F]">abonnement</span>
           </h1>
           <p className="text-lg text-[#666] font-light max-w-xl">
             Choisissez le plan qui correspond à vos ambitions. Changez de niveau à tout moment.
@@ -360,25 +413,46 @@ export default function FacturationPage() {
                 {activePlan.monthlyPrice}$ / mois + {activePlan.commission}% par projet
               </span>
             </p>
+            {renewalDate && (
+              <p className="text-xs text-[#999] font-light mt-1">
+                Prochain renouvellement : {formatDate(renewalDate)}
+                {startedAt && ` · Actif depuis le ${formatDate(startedAt)}`}
+              </p>
+            )}
           </div>
-          <span className="self-start sm:self-center px-3 py-1 bg-[#2C5F3F]/10 text-[#2C5F3F] text-xs font-medium rounded-full">
-            Actif
+          <span
+            className={`self-start sm:self-center px-3 py-1 text-xs font-medium rounded-full ${
+              subscriptionStatus === "active"
+                ? "bg-[#2C5F3F]/10 text-[#2C5F3F]"
+                : subscriptionStatus === "canceled"
+                ? "bg-red-50 text-red-600"
+                : "bg-amber-50 text-amber-600"
+            }`}
+          >
+            {subscriptionStatus === "active" ? "Actif" : subscriptionStatus === "canceled" ? "Annulé" : "En attente"}
           </span>
         </motion.div>
 
-        {/* Success toast */}
+        {/* Toast */}
         <AnimatePresence>
-          {successPlan && (
+          {toast && (
             <motion.div
-              className="fixed bottom-8 left-1/2 -translate-x-1/2 bg-[#2C5F3F] text-white px-6 py-3 rounded-full shadow-2xl text-sm font-medium z-50 flex items-center gap-2"
+              className={`fixed bottom-8 left-1/2 -translate-x-1/2 px-6 py-3 rounded-full shadow-2xl text-sm font-medium z-50 flex items-center gap-2 ${
+                toast.type === "success" ? "bg-[#2C5F3F] text-white" : "bg-red-600 text-white"
+              }`}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 20 }}
             >
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d={toast.type === "success" ? "M5 13l4 4L19 7" : "M6 18L18 6M6 6l12 12"}
+                />
               </svg>
-              Plan {PLANS.find((p) => p.id === successPlan)?.name} activé avec succès !
+              {toast.message}
             </motion.div>
           )}
         </AnimatePresence>
@@ -401,7 +475,7 @@ export default function FacturationPage() {
           ))}
         </motion.div>
 
-        {/* FAQ / Notes */}
+        {/* FAQ */}
         <motion.div
           className="bg-white rounded-3xl border border-gray-100 p-8 md:p-10"
           initial={{ opacity: 0, y: 16 }}
@@ -424,8 +498,8 @@ export default function FacturationPage() {
                 a: "Votre profil reste visible jusqu'à la fin de la période déjà payée. Aucun remboursement partiel n'est effectué.",
               },
               {
-                q: "Le prix de 149$ est-il le même pour tous les plans ?",
-                a: "Oui, le tarif mensuel est identique pour les trois niveaux. La différence porte sur la commission et les avantages inclus.",
+                q: "Le badge change-t-il immédiatement ?",
+                a: "Oui, votre badge et votre niveau de visibilité sont mis à jour dès l'activation du nouveau plan.",
               },
             ].map((item, i) => (
               <div key={i} className="space-y-2">

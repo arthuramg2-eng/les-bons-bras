@@ -63,6 +63,11 @@ export interface ProProfile {
   languages: string[] | null;
   availability: string | null;
   portfolio_items: PortfolioItem[] | null;
+  // Subscription fields
+  subscription_plan: "bras-actif" | "bras-fiable" | "bras-dor" | null;
+  subscription_status: "active" | "canceled" | "pending" | null;
+  subscription_started_at: string | null;
+  subscription_renewal_date: string | null;
 }
 
 export interface ProPortfolio {
