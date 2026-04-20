@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import ReactMarkdown from "react-markdown";
+import { AnimatePresence, motion } from "framer-motion";
 
 interface RecommendedPro {
   user_id: string;
@@ -37,6 +38,7 @@ export default function ChatRenovation() {
   ]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -198,7 +200,7 @@ export default function ChatRenovation() {
       {/* ================= NAVIGATION ================= */}
       <nav className="fixed top-0 w-full bg-white/95 backdrop-blur-md border-b border-gray-100 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-20">
+          <div className="flex justify-between items-center h-16 md:h-20">
             <Link href="/" className="flex items-center gap-2 group">
               <span className="text-3xl text-[#2C5F3F] font-bold">*</span>
               <span className="text-xl font-light tracking-tight">Les Bons Bras</span>
@@ -215,33 +217,64 @@ export default function ChatRenovation() {
                 Démarrer un projet
               </Link>
             </div>
+
+            <button
+              className="md:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              aria-label="Menu"
+            >
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={mobileMenuOpen ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16M4 18h16"} />
+              </svg>
+            </button>
           </div>
+
+          <AnimatePresence>
+            {mobileMenuOpen && (
+              <motion.div
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: "auto" }}
+                exit={{ opacity: 0, height: 0 }}
+                className="md:hidden border-t border-gray-100 overflow-hidden"
+              >
+                <div className="py-4 space-y-1">
+                  <Link href="/trouver-un-professionnel" onClick={() => setMobileMenuOpen(false)} className="block px-2 py-3 text-[#666] font-light hover:text-[#111] transition-colors">Trouver un pro</Link>
+                  <Link href="/devenir-professionnel" onClick={() => setMobileMenuOpen(false)} className="block px-2 py-3 text-[#666] font-light hover:text-[#111] transition-colors">Devenir pro</Link>
+                  <div className="pt-2">
+                    <Link href="/#contact" onClick={() => setMobileMenuOpen(false)} className="block px-6 py-3 bg-[#2C5F3F] text-white rounded-full text-sm font-medium text-center hover:bg-[#234B32] transition-all">
+                      Démarrer un projet
+                    </Link>
+                  </div>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
       </nav>
 
       {/* ================= CHAT INTERFACE ================= */}
-      <div className="pt-20 min-h-screen bg-[#F4F0EB]">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          
+      <div className="pt-16 md:pt-20 min-h-screen bg-[#F4F0EB]">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+
           {/* Header */}
-          <div className="text-center mb-8">
-            <div className="inline-flex items-center gap-2 bg-[#2C5F3F]/10 px-4 py-2 rounded-full mb-4">
+          <div className="text-center mb-6 sm:mb-8">
+            <div className="inline-flex items-center gap-2 bg-[#2C5F3F]/10 px-4 py-2 rounded-full mb-3 sm:mb-4">
               <span className="w-2 h-2 bg-[#2C5F3F] rounded-full animate-pulse" />
               <span className="text-sm font-light text-[#2C5F3F]">Assistant IA Rénovation</span>
             </div>
-            <h1 className="text-4xl md:text-5xl font-light mb-4">
+            <h1 className="text-2xl sm:text-3xl md:text-5xl font-light mb-3 sm:mb-4">
               Transformez votre <span className="text-[#2C5F3F]">intérieur</span> avec l'IA
             </h1>
-            <p className="text-lg text-[#666] font-light">
+            <p className="text-base text-[#666] font-light">
               Uploadez une photo, recevez des conseils et visualisez les transformations
             </p>
           </div>
 
           {/* Chat Container */}
           <div className="bg-white rounded-3xl shadow-xl overflow-hidden">
-            
+
             {/* Messages Area */}
-            <div className="h-[600px] overflow-y-auto p-6 space-y-6">
+            <div className="h-[calc(100svh-320px)] sm:h-[600px] overflow-y-auto p-4 sm:p-6 space-y-4 sm:space-y-6">
               {messages.map((message, index) => (
                 <div
                   key={index}
@@ -475,7 +508,7 @@ export default function ChatRenovation() {
           </div>
 
           {/* Features */}
-          <div className="grid md:grid-cols-3 gap-6 mt-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 mt-6 sm:mt-8">
             {[
               {
                 icon: (

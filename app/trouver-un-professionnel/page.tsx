@@ -72,6 +72,7 @@ export default function TrouverUnProfessionnelPage() {
   const [currentUserId, setCurrentUserId] = useState<string | null>(null);
   const [reviews, setReviews] = useState<Review[]>([]);
   const [reviewsLoading, setReviewsLoading] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const handleSendRequest = async () => {
     if (!currentUserId || !selectedPro) return;
@@ -829,7 +830,7 @@ export default function TrouverUnProfessionnelPage() {
       {/* Navbar */}
       <nav className="fixed top-0 w-full bg-white/95 backdrop-blur-md border-b border-gray-100 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-20">
+          <div className="flex justify-between items-center h-16 md:h-20">
             <Link href="/" className="flex items-center gap-2">
               <span className="text-3xl text-[#2C5F3F] font-bold">*</span>
               <span className="text-xl font-light tracking-tight">Les Bons Bras</span>
@@ -847,14 +848,50 @@ export default function TrouverUnProfessionnelPage() {
                 </Link>
               )}
             </div>
+            <button
+              className="md:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              aria-label="Menu"
+            >
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={mobileMenuOpen ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16M4 18h16"} />
+              </svg>
+            </button>
           </div>
+
+          <AnimatePresence>
+            {mobileMenuOpen && (
+              <motion.div
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: "auto" }}
+                exit={{ opacity: 0, height: 0 }}
+                className="md:hidden border-t border-gray-100 overflow-hidden"
+              >
+                <div className="py-4 space-y-1">
+                  <Link href="/chat-renovation" onClick={() => setMobileMenuOpen(false)} className="block px-2 py-3 text-[#666] font-light hover:text-[#111] transition-colors">Assistant IA</Link>
+                  <Link href="/devenir-professionnel" onClick={() => setMobileMenuOpen(false)} className="block px-2 py-3 text-[#666] font-light hover:text-[#111] transition-colors">Devenir pro</Link>
+                  <div className="pt-2">
+                    {isLoggedIn ? (
+                      <Link href="/dashboard" onClick={() => setMobileMenuOpen(false)} className="block px-6 py-3 bg-[#2C5F3F] text-white rounded-full text-sm font-medium text-center hover:bg-[#234B32] transition-all">
+                        Mon tableau de bord
+                      </Link>
+                    ) : (
+                      <Link href="/connexion" onClick={() => setMobileMenuOpen(false)} className="block px-6 py-3 bg-[#2C5F3F] text-white rounded-full text-sm font-medium text-center hover:bg-[#234B32] transition-all">
+                        Connexion
+                      </Link>
+                    )}
+                  </div>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
       </nav>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-28 pb-16">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 md:pt-28 pb-16">
         {/* Header */}
-        <motion.div className="mb-10" initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
-          <h1 className="text-4xl md:text-5xl font-light tracking-tight mb-3">
+        <motion.div className="mb-8 md:mb-10" initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-light tracking-tight mb-3">
             Trouvez votre <span className="text-[#2C5F3F]">professionnel</span>
           </h1>
           <p className="text-lg text-[#666] font-light max-w-2xl">

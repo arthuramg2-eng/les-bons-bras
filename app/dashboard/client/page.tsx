@@ -464,7 +464,7 @@ export default function ClientDashboardPage() {
       {/* Navbar */}
       <nav className="fixed top-0 w-full bg-white/95 backdrop-blur-md border-b border-gray-100 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-20">
+          <div className="flex justify-between items-center h-16 md:h-20">
             <Link href="/" className="flex items-center gap-2 group">
               <span className="text-3xl text-[#2C5F3F] font-bold">*</span>
               <span className="text-xl font-light tracking-tight">Les Bons Bras</span>
@@ -515,10 +515,10 @@ export default function ClientDashboardPage() {
       </nav>
 
       {/* Content */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-28 pb-16">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 md:pt-28 pb-16">
         {/* Welcome */}
         <motion.div className="mb-10" initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
-          <h1 className="text-4xl md:text-5xl font-light tracking-tight mb-2">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-light tracking-tight mb-2">
             Bonjour, <span className="text-[#2C5F3F]">{displayName.split(" ")[0]}</span>
           </h1>
           <p className="text-lg text-[#666] font-light">Voici un aperçu de vos projets de rénovation.</p>

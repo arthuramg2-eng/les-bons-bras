@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 
 export default function Home() {
   const [formData, setFormData] = useState({
@@ -13,6 +14,7 @@ export default function Home() {
   });
 
   const [chatInput, setChatInput] = useState("");
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -34,14 +36,14 @@ export default function Home() {
       {/* ================= NAVIGATION ================= */}
       <nav className="fixed top-0 w-full bg-white/95 backdrop-blur-md border-b border-gray-100 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-20">
+          <div className="flex justify-between items-center h-16 md:h-20">
             {/* Logo */}
             <Link href="/" className="flex items-center gap-2 group">
               <span className="text-3xl text-[#2C5F3F] font-bold">*</span>
               <span className="text-xl font-light tracking-tight">Les Bons Bras</span>
             </Link>
 
-            {/* Navigation */}
+            {/* Desktop Navigation */}
             <div className="hidden md:flex items-center gap-8">
               <Link href="/trouver-un-professionnel" className="text-[#666] hover:text-[#111] font-light transition-colors">
                 Trouver un pro
@@ -50,59 +52,86 @@ export default function Home() {
                 Devenir pro
               </Link>
               <Link href="/chat-renovation" className="text-[#666] hover:text-[#111] font-light transition-colors">
-  Assistant IA
-</Link>
-<Link href="/connexion" className="text-[#666] hover:text-[#111] font-light transition-colors">
-  Connexion
-</Link>
-<Link href="/#contact" className="px-6 py-2.5 bg-[#E2711D] text-white rounded-full text-sm font-medium hover:bg-[#C85D16] transition-all">
-  Démarrer un projet
-</Link>
+                Assistant IA
+              </Link>
+              <Link href="/connexion" className="text-[#666] hover:text-[#111] font-light transition-colors">
+                Connexion
+              </Link>
+              <Link href="/#contact" className="px-6 py-2.5 bg-[#E2711D] text-white rounded-full text-sm font-medium hover:bg-[#C85D16] transition-all">
+                Démarrer un projet
+              </Link>
             </div>
 
             {/* Mobile menu button */}
-            <button className="md:hidden p-2">
+            <button
+              className="md:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              aria-label="Menu"
+            >
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={mobileMenuOpen ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16M4 18h16"} />
               </svg>
             </button>
           </div>
+
+          <AnimatePresence>
+            {mobileMenuOpen && (
+              <motion.div
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: "auto" }}
+                exit={{ opacity: 0, height: 0 }}
+                className="md:hidden border-t border-gray-100 overflow-hidden"
+              >
+                <div className="py-4 space-y-1">
+                  <Link href="/trouver-un-professionnel" onClick={() => setMobileMenuOpen(false)} className="block px-2 py-3 text-[#666] font-light hover:text-[#111] transition-colors">Trouver un pro</Link>
+                  <Link href="/devenir-professionnel" onClick={() => setMobileMenuOpen(false)} className="block px-2 py-3 text-[#666] font-light hover:text-[#111] transition-colors">Devenir pro</Link>
+                  <Link href="/chat-renovation" onClick={() => setMobileMenuOpen(false)} className="block px-2 py-3 text-[#666] font-light hover:text-[#111] transition-colors">Assistant IA</Link>
+                  <Link href="/connexion" onClick={() => setMobileMenuOpen(false)} className="block px-2 py-3 text-[#666] font-light hover:text-[#111] transition-colors">Connexion</Link>
+                  <div className="pt-2">
+                    <Link href="/#contact" onClick={() => setMobileMenuOpen(false)} className="block px-6 py-3 bg-[#E2711D] text-white rounded-full text-sm font-medium text-center hover:bg-[#C85D16] transition-all">
+                      Démarrer un projet
+                    </Link>
+                  </div>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
       </nav>
 
       {/* ================= HERO ================= */}
-      <section className="relative min-h-screen flex items-center pt-20">
+      <section className="relative min-h-[100svh] flex items-center pt-16 md:pt-20">
         {/* Background gradients */}
         <div className="absolute inset-0 overflow-hidden">
           <div className="absolute -top-40 -left-40 w-[600px] h-[600px] bg-[#2C5F3F] rounded-full blur-3xl opacity-5" />
           <div className="absolute top-1/2 -right-40 w-[500px] h-[500px] bg-[#E2711D] rounded-full blur-3xl opacity-5" />
         </div>
 
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 w-full">
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
-            
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-16 lg:py-20 w-full">
+          <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+
             {/* Left content */}
-            <div className="space-y-8">
+            <div className="space-y-6 sm:space-y-8">
               <div className="inline-flex items-center gap-2 bg-[#E2711D]/10 px-4 py-2 rounded-full">
                 <span className="w-2 h-2 bg-[#E2711D] rounded-full animate-pulse" />
                 <span className="text-sm font-light text-[#E2711D]">+2 500 professionnels vérifiés</span>
               </div>
 
-              <h1 className="text-5xl md:text-7xl font-light tracking-tight leading-[1.1]">
+              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-light tracking-tight leading-[1.1]">
                 Trouvez les meilleurs<br />
                 <span className="text-[#2C5F3F]">professionnels</span><br />
                 pour vos travaux
               </h1>
 
-              <p className="text-xl text-[#666] font-light leading-relaxed max-w-xl">
+              <p className="text-base sm:text-xl text-[#666] font-light leading-relaxed max-w-xl">
                 Architectes, designers, artisans — nous vous mettons en relation avec des experts vérifiés pour concrétiser vos projets de rénovation.
               </p>
 
               {/* CTA Buttons */}
-              <div className="flex flex-col sm:flex-row gap-4 pt-4">
+              <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 pt-2 sm:pt-4">
                 <Link
                   href="/trouver-un-professionnel"
-                  className="group px-8 py-4 bg-[#2C5F3F] text-white rounded-full font-medium hover:bg-[#234B32] transition-all inline-flex items-center justify-center gap-2 shadow-lg hover:shadow-xl"
+                  className="group px-6 py-3.5 sm:px-8 sm:py-4 bg-[#2C5F3F] text-white rounded-full font-medium hover:bg-[#234B32] transition-all inline-flex items-center justify-center gap-2 shadow-lg hover:shadow-xl"
                 >
                   Trouver un professionnel
                   <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -111,32 +140,32 @@ export default function Home() {
                 </Link>
                 <Link
                   href="#comment-ca-marche"
-                  className="px-8 py-4 border-2 border-[#E2711D] text-[#E2711D] rounded-full font-medium hover:bg-[#E2711D] hover:text-white transition-all inline-flex items-center justify-center"
+                  className="px-6 py-3.5 sm:px-8 sm:py-4 border-2 border-[#E2711D] text-[#E2711D] rounded-full font-medium hover:bg-[#E2711D] hover:text-white transition-all inline-flex items-center justify-center"
                 >
                   Comment ça marche
                 </Link>
               </div>
 
               {/* Social proof */}
-              <div className="flex items-center gap-8 pt-8 border-t border-gray-100">
+              <div className="flex items-center gap-5 sm:gap-8 pt-5 sm:pt-8 border-t border-gray-100">
                 <div>
-                  <div className="text-3xl font-light text-[#E2711D]">4.9/5</div>
-                  <div className="text-sm text-[#666] font-light">Note moyenne</div>
+                  <div className="text-2xl sm:text-3xl font-light text-[#E2711D]">4.9/5</div>
+                  <div className="text-xs sm:text-sm text-[#666] font-light">Note moyenne</div>
                 </div>
                 <div>
-                  <div className="text-3xl font-light text-[#2C5F3F]">12k+</div>
-                  <div className="text-sm text-[#666] font-light">Projets réalisés</div>
+                  <div className="text-2xl sm:text-3xl font-light text-[#2C5F3F]">12k+</div>
+                  <div className="text-xs sm:text-sm text-[#666] font-light">Projets réalisés</div>
                 </div>
                 <div>
-                  <div className="text-3xl font-light text-[#E2711D]">98%</div>
-                  <div className="text-sm text-[#666] font-light">Satisfaction client</div>
+                  <div className="text-2xl sm:text-3xl font-light text-[#E2711D]">98%</div>
+                  <div className="text-xs sm:text-sm text-[#666] font-light">Satisfaction client</div>
                 </div>
               </div>
             </div>
 
             {/* Right image */}
             <div className="relative">
-              <div className="relative h-[600px] rounded-3xl overflow-hidden shadow-2xl">
+              <div className="relative h-[260px] sm:h-[420px] lg:h-[600px] rounded-3xl overflow-hidden shadow-2xl">
                 <Image
                   src="/images/Réno 1.jpg"
                   alt="Projet de rénovation"
@@ -145,8 +174,8 @@ export default function Home() {
                   priority
                 />
               </div>
-              {/* Floating card */}
-              <div className="absolute -bottom-6 -left-6 bg-white p-6 rounded-2xl shadow-xl max-w-xs">
+              {/* Floating card — desktop only */}
+              <div className="hidden md:block absolute -bottom-6 -left-6 bg-white p-6 rounded-2xl shadow-xl max-w-xs">
                 <div className="flex items-center gap-3 mb-3">
                   <div className="w-12 h-12 bg-[#E2711D]/10 rounded-full flex items-center justify-center">
                     <svg className="w-6 h-6 text-[#E2711D]" fill="currentColor" viewBox="0 0 20 20">
@@ -207,21 +236,21 @@ export default function Home() {
             </div>
 
             {/* Input Form */}
-            <form onSubmit={handleChatSubmit} className="p-6">
-              <div className="flex gap-4">
+            <form onSubmit={handleChatSubmit} className="p-4 sm:p-6">
+              <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
                 <input
                   type="text"
                   value={chatInput}
                   onChange={(e) => setChatInput(e.target.value)}
                   placeholder="Ex: Comment moderniser ma cuisine avec un budget de 10 000$ ?"
-                  className="flex-1 bg-gray-50 rounded-2xl px-6 py-4 text-[#111] placeholder:text-[#666] focus:outline-none focus:ring-2 focus:ring-[#2C5F3F] transition-all text-base"
+                  className="flex-1 bg-gray-50 rounded-2xl px-5 py-4 text-[#111] placeholder:text-[#666] focus:outline-none focus:ring-2 focus:ring-[#2C5F3F] transition-all text-base"
                 />
                 <button
                   type="submit"
                   disabled={!chatInput.trim()}
-                  className="px-8 py-4 bg-[#2C5F3F] text-white rounded-2xl font-medium hover:bg-[#234B32] transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 shadow-lg hover:shadow-xl"
+                  className="px-6 py-4 bg-[#2C5F3F] text-white rounded-2xl font-medium hover:bg-[#234B32] transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 shadow-lg hover:shadow-xl"
                 >
-                  <span className="hidden sm:inline">Envoyer</span>
+                  <span>Envoyer</span>
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
                   </svg>
@@ -339,7 +368,7 @@ export default function Home() {
             
             {/* Left - Image */}
             <div className="relative">
-              <div className="relative h-[500px] rounded-3xl overflow-hidden shadow-2xl">
+              <div className="relative h-[300px] sm:h-[420px] lg:h-[500px] rounded-3xl overflow-hidden shadow-2xl">
                 <Image
                   src="/images/Réno 2.jpg"
                   alt="Professionnels de la rénovation"
@@ -347,8 +376,8 @@ export default function Home() {
                   className="object-cover"
                 />
               </div>
-              {/* Stats overlay */}
-              <div className="absolute -bottom-6 -right-6 bg-white p-8 rounded-2xl shadow-xl">
+              {/* Stats overlay — desktop only */}
+              <div className="hidden md:block absolute -bottom-6 -right-6 bg-white p-8 rounded-2xl shadow-xl">
                 <div className="text-5xl font-light text-[#E2711D] mb-2">2,500+</div>
                 <div className="text-[#666] font-light">Professionnels vérifiés</div>
               </div>
@@ -494,7 +523,7 @@ export default function Home() {
             </p>
           </div>
 
-          <form onSubmit={handleSubmit} className="bg-white/10 backdrop-blur-md rounded-3xl p-8 md:p-12 border border-white/20">
+          <form onSubmit={handleSubmit} className="bg-white/10 backdrop-blur-md rounded-3xl p-5 sm:p-8 md:p-12 border border-white/20">
             <div className="grid md:grid-cols-2 gap-6 mb-6">
               <input
                 type="text"
@@ -552,9 +581,9 @@ export default function Home() {
       {/* ================= FOOTER ================= */}
       <footer className="bg-[#111] text-white py-16 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12 mb-12">
             {/* Brand */}
-            <div className="md:col-span-1">
+            <div className="col-span-2 md:col-span-1">
               <div className="flex items-center gap-2 mb-6">
                 <span className="text-3xl text-[#2C5F3F] font-bold">*</span>
                 <span className="text-xl font-light">Les Bons Bras</span>
